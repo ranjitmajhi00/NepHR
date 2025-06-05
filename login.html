@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    /* CSS Variables for Theming - ALL IN ONE PLACE */
+    :root {
+      /* Light Mode Variables */
+      --primary-accent-color: #4CAF50; /* Soft Green Accent */
+      --primary-accent-color-hover: #45a049; /* Slightly darker on hover */
+      --background-gradient-start: #e0e7ff; /* Lighter blue/violet */
+      --background-gradient-end: #c3d9ff; /* Deeper blue/violet */
+      --text-color-primary: #333;
+      --text-color-secondary: #666;
+      --card-bg-color: rgba(240, 240, 240, 0.8); /* Slightly transparent white for glass effect */
+      --input-bg-color: #e8e8e8;
+      --input-bg-focus-color: #f5f5f5;
+      --button-bg-color: #e0e0e0;
+      --error-color: #e74c3c; /* Red */
+      --success-color: #27ae60; /* Green */
+      --warning-color: #f39c12; /* Added for password strength bar */
+      --info-color: #3498db; /* Added for password strength bar ('Good' strength) */
+
+      /* Neumorphic Shadows (Light Mode) */
+      --neumorphic-shadow-light: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.7);
+      --neumorphic-shadow-raised: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+      --neumorphic-shadow-hover: 8px 8px 15px rgba(0, 0, 0, 0.15), -8px -8px 15px rgba(255, 255, 255, 0.85);
+
+      /* Neumorphic Input Inset (Light Mode) */
+      --neumorphic-input-inset-shadow: inset 2px 2px 5px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(255,255,255,0.7);
+      --neumorphic-input-focus-shadow: inset 3px 3px 7px rgba(0,0,0,0.15), inset -3px -3px 7px rgba(255,255,255,0.85);
+
+      /* Glassmorphism */
+      --glass-filter: blur(10px);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border for glass effect */
+
+      /* Border Radii */
+      --border-radius-sm: 4px;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+      --border-radius-xl: 16px;
+      --border-radius-2xl: 24px;
+    }
+
+    /* Dark Mode Variables - applies when body has 'dark-mode' class */
+    body.dark-mode {
+      --primary-accent-color: #6a0dad; /* Violet Accent */
+      --primary-accent-color-hover: #7b00ea; /* Lighter violet */
+      --background-gradient-start: #2a293a; /* Darker grey-violet */
+      --background-gradient-end: #3b3a4e; /* Lighter grey-violet */
+      --text-color-primary: #f0f0f0;
+      --text-color-secondary: #b0b0b0;
+      --card-bg-color: rgba(32, 33, 36, 0.8); /* Transparent dark grey */
+      --input-bg-color: #2c2d30;
+      --input-bg-focus-color: #38393c;
+      --button-bg-color: #383838;
+      --error-color: #ff6b6b; /* Red */
+      --success-color: #2ecc71; /* Green */
+      --warning-color: #f1c40f; /* For password strength bar */
+      --info-color: #9b59b6; /* For password strength bar ('Good' strength) */
+
+      /* Neumorphic Shadows (Dark Mode) */
+      --neumorphic-shadow-light: 10px 10px 20px rgba(0, 0, 0, 0.5), -10px -10px 20px rgba(60, 60, 60, 0.5);
+      --neumorphic-shadow-raised: 5px 5px 10px #222, -5px -5px 10px #444;
+      --neumorphic-shadow-hover: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(70, 70, 70, 0.6);
+
+      /* Neumorphic Input Inset (Dark Mode) */
+      --neumorphic-input-inset-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(60,60,60,0.5);
+      --neumorphic-input-focus-shadow: inset 3px 3px 7px rgba(0,0,0,0.6), inset -3px -3px 7px rgba(70,70,70,0.6);
+
+      /* Glassmorphism for Dark Mode */
+      --glass-border: 1px solid rgba(255, 255, 255, 0.05); /* Lighter border for contrast */
+    }
+    /* End of CSS Variables */
+
+    /* General Base Styles */
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right bottom, var(--background-gradient-start), var(--background-gradient-end));
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color-primary);
+      transition: background 0.3s ease, color 0.3s ease;
+      background-size: cover;
+    }
+    .login-container {
+      position: relative;
+      background: var(--card-bg-color);
+      padding: 60px 40px 40px;
+      border-radius: var(--border-radius-2xl);
+      box-shadow: var(--neumorphic-shadow-light);
+      text-align: center;
+      width: 380px;
+      max-width: 90%;
+      z-index: 1;
+      backdrop-filter: var(--glass-filter);
+      border: var(--glass-border);
+      transition: background 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+      transform: translateY(20px);
+    }
+    .company-banner {
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: -1;
+    }
+    .company-logo {
+      width: 120px; /* Adjust size */
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--neumorphic-shadow-raised);
+    }
+    .custom-banner-img {
+      width: 90%; /* Adjust size */
+      height: auto;
+      max-height: 100px;
+      object-fit: contain;
+      margin-top: 10px;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--neumorphic-shadow-raised);
+    }
+    .login-container h2 {
+      margin-top: 0;
+      margin-bottom: 30px;
+      color: var(--text-color-primary);
+      font-weight: 600;
+      font-size: 1.8em;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+      color: var(--text-color-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-size: 1.1em;
+      background: var(--input-bg-color);
+      color: var(--text-color-primary);
+      box-shadow: var(--neumorphic-input-inset-shadow);
+      outline: none;
+      transition: box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .input-group input:focus {
+      box-shadow: var(--neumorphic-input-focus-shadow);
+      background: var(--input-bg-focus-color);
+    }
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: var(--border-radius-lg);
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--primary-accent-color);
+      background: var(--button-bg-color);
+      box-shadow: var(--neumorphic-shadow-raised);
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--neumorphic-shadow-hover);
+      color: var(--primary-accent-color-hover);
+    }
+    button:active {
+      transform: translateY(0);
+      box-shadow: var(--neumorphic-input-inset-shadow);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #login-message, #forgot-message, #reset-otp-message, #set-password-message { /* Combined messages */
+      margin-top: 15px;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: var(--text-color-primary); /* Default color */
+    }
+    #login-message.error, #forgot-message.error, #reset-otp-message.error, #set-password-message.error { color: var(--error-color); }
+    #login-message.success, #forgot-message.success, #reset-otp-message.success, #set-password-message.success { color: var(--success-color); }
+
+    /* Spinner for general forms and modals */
+    #loading-spinner, .spinner {
+      margin-top: 20px;
+      border: 4px solid var(--text-color-secondary);
+      border-left-color: var(--primary-accent-color);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Password Toggle Specific Styles */
+    .input-field-wrapper {
+      position: relative;
+      width: 100%;
+      display: block;
+    }
+    .input-field-wrapper input {
+      padding-right: 45px;
+      box-sizing: border-box;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-color-secondary);
+      font-size: 0.9em;
+      transition: color 0.2s ease;
+      display: none; /* Hidden by default, JS controls visibility */
+      z-index: 2;
+    }
+    /* Forgot Password Link */
+    .forgot-password-link {
+      display: block;
+      text-align: right;
+      margin-top: auto; /* Push it to the bottom of the container */
+      margin-bottom: 0;
+      font-size: 0.9em;
+      color: var(--text-color-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .forgot-password-link:hover {
+      color: var(--primary-accent-color);
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 100px;
+    }
+    .modal-content {
+      background: var(--card-bg-color);
+      margin: auto;
+      padding: 30px;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--neumorphic-shadow-light);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      animation: fadeInScale 0.3s ease-out;
+    }
+    .close-button {
+      color: var(--text-color-secondary);
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .close-button:hover, .close-button:focus {
+      color: var(--error-color);
+      text-decoration: none;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: var(--text-color-primary);
+      font-size: 1.6em;
+    }
+    .modal-content p {
+      font-size: 0.9em;
+      color: var(--text-color-secondary);
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* OTP Timer & Resend Link in Modal - UPDATED STYLES */
+    #reset-otp-timer-message {
+      font-size: 0.95em; /* Slightly larger for clarity */
+      font-weight: 600; /* Bolder */
+      color: var(--text-color-primary); /* More prominent color */
+      margin-top: 15px; /* More space */
+      margin-bottom: 5px; /* Space before resend link */
+      text-align: center; /* Center the timer */
+    }
+    #resend-reset-otp-link {
+      font-size: 0.85em; /* Slightly smaller for resend */
+      margin-top: 5px;
+      display: block;
+      color: var(--primary-accent-color);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center; /* Center the link */
+    }
+    #resend-reset-otp-link.disabled {
+      color: var(--text-color-secondary);
+      cursor: not-allowed;
+    }
+
+    /* Password Strength Bar */
+    #password-strength-bar {
+      height: 5px;
+      border-radius: 5px;
+      margin-top: 5px; /* Adjusted margin */
+      margin-bottom: 15px; /* Space before next input/button */
+      width: 0%; /* Default hidden */
+      transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      background-color: transparent; /* Initially transparent */
+    }
+    #password-strength-bar.progress-very-weak { width: 25%; background-color: var(--error-color); }
+    #password-strength-bar.progress-weak { width: 50%; background-color: var(--error-color); }
+    #password-strength-bar.progress-medium { width: 75%; background-color: var(--warning-color); }
+    #password-strength-bar.progress-good { width: 100%; background-color: var(--info-color); } /* Using info for 'Good' */
+    #password-strength-bar.progress-strong { width: 100%; background-color: var(--success-color); } /* Using success for 'Strong' */
+
+    /* Steps within Modal */
+    .forgot-password-step {
+      display: none; /* Hidden by default */
+    }
+    .forgot-password-step.active {
+      display: block; /* Show active step */
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 40px 25px 30px;
+      }
+      .company-banner {
+        top: -100px;
+      }
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <div class="login-container">
+    <div class="company-banner">
+      <!-- Image URL for NepHR Logo. REPLACE with your publicly accessible logo URL. -->
+      <img src="https://drive.google.com/file/d/1nrXNaHzWdFGwR2WJZ6I69-kMIEYplB_0/view?usp=drive_link" alt="NepHR" class="company-logo">
+      <!-- Image URL for Custom Banner. REPLACE with your publicly accessible banner URL.
+            This will be updated dynamically if uploaded via Admin Panel. -->
+      <img id="custom-banner-img" src="https://drive.google.com/file/d/1IdLsqGvt37XA1L3YM8Dz5itPh3FUauRQ/view?usp=drive_link" alt="Babiyakharka SACCOS" class="custom-banner-img">
+    </div>
+    <h2>Login to NepHR</h2>
+
+    <!-- Login with Username and Password -->
+    <form id="login-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autocomplete="username">
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="input-field-wrapper password-group">
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+          <span class="password-toggle" id="password-toggle">
+            <i class="fa-solid fa-eye-slash"></i> <!-- Eye icon starts as slash (hidden) -->
+          </span>
+        </div>
+      </div>
+      <button type="submit" id="login-button">Log In</button>
+      <div id="loading-spinner" class="spinner"></div>
+      <p id="login-message"></p>
+    </form>
+
+    <!-- Forgot Password Link -->
+    <a href="#" id="forgot-password-link" class="forgot-password-link">Forgot password?</a>
+  </div>
+
+  <!-- Forgot Password Modal (Multi-step) -->
+  <div id="forgot-password-modal" class="modal-overlay">
+    <div class="modal-content card">
+      <span class="close-button" id="close-forgot-modal">&times;</span>
+      <h3 id="forgot-modal-title">Reset Password</h3>
+
+      <!-- Step 1: Enter Username/Email -->
+      <div id="forgot-step-1" class="forgot-password-step active">
+        <p>Enter your username to receive a password reset OTP.</p>
+        <form id="forgot-username-form">
+          <div class="input-group">
+            <label for="forgot-username">Username</label>
+            <input type="text" id="forgot-username" name="username" required autocomplete="username">
+          </div>
+          <button type="submit" id="forgot-send-otp-button">Send Reset OTP</button>
+          <div id="forgot-loading-spinner" class="spinner"></div>
+          <p id="forgot-message"></p>
+        </form>
+      </div>
+
+      <!-- Step 2: Enter OTP -->
+      <div id="forgot-step-2" class="forgot-password-step">
+        <p id="reset-otp-sent-info">An OTP has been sent to your registered email for password reset.</p>
+        <form id="forgot-verify-otp-form">
+          <div class="input-group">
+            <label for="reset-otp">Enter OTP</label>
+            <input type="text" id="reset-otp" name="otp" required inputmode="numeric" pattern="[0-9]" maxlength="6" autocomplete="one-time-code">
+          </div>
+          <!-- These elements will display the timer and resend link -->
+          <p id="reset-otp-timer-message"></p>
+          <a href="#" id="resend-reset-otp-link" class="disabled">Resend OTP</a>
+          <button type="submit" id="forgot-verify-button">Verify OTP</button>
+          <div id="reset-verify-spinner" class="spinner"></div>
+          <p id="reset-otp-message"></p>
+          <a href="#" id="forgot-go-back-link">Go Back</a>
+        </form>
+      </div>
+
+      <!-- Step 3: Set New Password -->
+      <div id="forgot-step-3" class="forgot-password-step">
+        <p>Enter and confirm your new password.</p>
+        <form id="set-new-password-form">
+          <div class="input-group">
+            <label for="new-password">New Password</label>
+            <div class="input-field-wrapper password-group">
+              <input type="password" id="new-password" name="newPassword" required autocomplete="new-password">
+              <span class="password-toggle" id="new-password-toggle">
+                <i class="fa-solid fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+          <div id="password-strength-bar"></div> <!-- Password Strength Bar -->
+          <div class="input-group">
+            <label for="confirm-password">Confirm Password</label>
+            <div class="input-field-wrapper password-group">
+              <input type="password" id="confirm-password" name="confirmPassword" required autocomplete="new-password">
+              <span class="password-toggle" id="confirm-password-toggle">
+                <i class="fa-solid fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+          <button type="submit" id="set-password-button">Set New Password</button>
+          <div id="set-password-spinner" class="spinner"></div>
+          <p id="set-password-message"></p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- tinycolor.js for programmatic color manipulation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
+  <script>
+    // --- Global Variables & Helper Functions ---
+    let currentUsernameForReset = ''; // Store username for multi-step reset
+    let otpValidityInterval; // Interval for OTP validity countdown
+    let resendCooldownInterval; // Interval for resend button cooldown
+    const resetOtpResendCooldown = 60; // seconds for OTP resend cooldown (client-side fixed)
+    let otpServerExpiryTimestamp = 0; // To store the actual expiry time (in milliseconds) from the server
+
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      // CRITICAL FIX: SameSite=None and Secure for cross-site cookie sending in Web Apps
+      document.cookie = name + "=" + (value || "") + expires + "; Path=/; Secure; SameSite=Lax;";
+
+      // ADDED CONSOLE LOGS FOR DEBUGGING
+      console.log("Attempting to set cookie string:", cookieString);
+
+      document.cookie = cookieString;
+
+      console.log("Current document.cookie after setting:", document.cookie);
+    }
+
+    function deleteCookie(name) {
+      document.cookie = name + '=; Max-Age=-99999999; Path=/;';
+    }
+
+    // --- Password Toggle Logic (Reusable) ---
+    function setupPasswordToggle(passwordFieldId, toggleId) {
+      const passwordField = document.getElementById(passwordFieldId);
+      const passwordToggle = document.getElementById(toggleId);
+      const eyeIcon = passwordToggle ? passwordToggle.querySelector('i') : null;
+
+      function updateVisibility() {
+        if (!passwordField || !passwordToggle || !eyeIcon) return;
+        if (passwordField.value.length > 0) {
+          passwordToggle.style.display = 'inline-block';
+        } else {
+          passwordToggle.style.display = 'none';
+          passwordField.type = 'password';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        }
+      }
+
+      if (passwordField && passwordToggle) {
+        passwordField.addEventListener('input', updateVisibility);
+        // Initial check for autofill outside modal
+        if (passwordFieldId === 'password') {
+          window.addEventListener('load', updateVisibility);
+        }
+
+        passwordToggle.addEventListener('click', function() {
+          const type = passwordField.type === 'password' ? 'text' : 'password';
+          passwordField.type = type;
+          this.querySelector('i').classList.toggle('fa-eye');
+          this.querySelector('i').classList.toggle('fa-eye-slash');
+          passwordField.focus();
+        });
+      }
+    }
+
+    // --- OTP Timer Logic (for Reset Flow) ---
+    function startOtpValidityTimer(serverProvidedExpiryTimestamp) {
+      otpServerExpiryTimestamp = serverProvidedExpiryTimestamp;
+      const timerElement = document.getElementById('reset-otp-timer-message');
+      const otpInput = document.getElementById('reset-otp');
+      const verifyButton = document.getElementById('forgot-verify-button');
+      const resendLink = document.getElementById('resend-reset-otp-link');
+
+      // Immediately check if OTP is already expired upon calling this function
+      if (new Date().getTime() > otpServerExpiryTimestamp) {
+        timerElement.textContent = "OTP expired. Please request a new one.";
+        otpInput.disabled = true;
+        verifyButton.disabled = true;
+        resendLink.classList.remove('disabled');
+        resendLink.style.removeProperty('cursor'); // 'unset' isn't supported in all browsers
+        resendLink.textContent = 'Resend OTP';
+        clearInterval(otpValidityInterval); // Ensure interval stops if already expired
+        clearInterval(resendCooldownInterval); // Ensure cooldown stops if already expired
+        return;
+      } else {
+        otpInput.disabled = false;
+        verifyButton.disabled = false;
+      }
+
+      // --- Resend Cooldown Timer ---
+      resendLink.classList.add('disabled');
+      resendLink.style.cursor = 'not-allowed';
+      let resendCountdown = resetOtpResendCooldown;
+      resendLink.textContent = `Resend OTP in ${resendCountdown}s`;
+
+      clearInterval(resendCooldownInterval); // Clear previous
+      resendCooldownInterval = setInterval(() => {
+        resendCountdown--;
+        resendLink.textContent = `Resend OTP in ${resendCountdown}s`;
+        if (resendCountdown <= 0) {
+          clearInterval(resendCooldownInterval);
+          resendLink.classList.remove('disabled');
+          resendLink.style.removeProperty('cursor');
+          resendLink.textContent = 'Resend OTP';
+        }
+      }, 1000);
+
+      // --- OTP Validity Timer ---
+      clearInterval(otpValidityInterval); // Clear previous
+      otpValidityInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = otpServerExpiryTimestamp - now;
+
+        if (distance < 0) {
+          clearInterval(otpValidityInterval);
+          timerElement.textContent = "OTP expired. Please request a new one.";
+          otpInput.disabled = true;
+          verifyButton.disabled = true;
+          if (resendCountdown <= 0) { // Only if resend cooldown is over
+            resendLink.classList.remove('disabled');
+            resendLink.style.removeProperty('cursor');
+            resendLink.textContent = 'Resend OTP';
+          }
+          return;
+        }
+
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        timerElement.textContent = `OTP expires in: ${minutes}m ${seconds}s`;
+      }, 1000);
+    }
+
+    function resetAllOtpTimers() {
+      clearInterval(otpValidityInterval); otpValidityInterval = null;
+      clearInterval(resendCooldownInterval); resendCooldownInterval = null;
+      document.getElementById('reset-otp-timer-message').textContent = '';
+      const resendLink = document.getElementById('resend-reset-otp-link');
+      resendLink.classList.remove('disabled');
+      resendLink.style.removeProperty('cursor');
+      resendLink.textContent = 'Resend OTP';
+      document.getElementById('reset-otp').value = ''; // CLEAR OTP INPUT HERE
+      document.getElementById('reset-otp').disabled = false;
+      document.getElementById('forgot-verify-button').disabled = false;
+    }
+
+    // --- Password Strength Evaluation ---
+    function evaluatePasswordStrength(password) {
+      const passwordStrengthBar = document.getElementById('password-strength-bar');
+      let score = 0;
+      if (password.length >= 8) score++; // Good length
+      if (/[A-Z]/.test(password)) score++; // Uppercase
+      if (/[a-z]/.test(password)) score++; // Lowercase
+      if (/[0-9]/.test(password)) score++; // Numbers
+      if (/[\W_]/.test(password)) score++; // Special characters (including underscore)
+
+      passwordStrengthBar.className = ""; // Reset classes
+      if (password.length === 0) {
+        passwordStrengthBar.style.width = '0%';
+        passwordStrengthBar.style.backgroundColor = 'transparent';
+        return { score: 0, text: "" };
+      }
+
+      let strengthText;
+      switch(score) {
+        case 5:
+          passwordStrengthBar.classList.add("progress-strong");
+          strengthText = "Strong"; break;
+        case 4:
+          passwordStrengthBar.classList.add("progress-good");
+          strengthText = "Good"; break;
+        case 3:
+          passwordStrengthBar.classList.add("progress-medium");
+          strengthText = "Medium"; break;
+        case 2:
+          passwordStrengthBar.classList.add("progress-weak");
+          strengthText = "Weak"; break;
+        default:
+          passwordStrengthBar.classList.add("progress-very-weak");
+          strengthText = "Very Weak"; break;
+      }
+      return { score: score, text: strengthText };
+    }
+
+    // --- Modal Step Management ---
+    function showForgotStep(stepNumber) {
+      const steps = document.querySelectorAll('.forgot-password-step');
+      steps.forEach(step => step.classList.remove('active'));
+      document.getElementById(`forgot-step-${stepNumber}`).classList.add('active');
+
+      const modalTitle = document.getElementById('forgot-modal-title');
+      if (stepNumber === 1) modalTitle.textContent = 'Reset Password';
+      if (stepNumber === 2) modalTitle.textContent = 'Verify OTP';
+      if (stepNumber === 3) {
+        modalTitle.textContent = 'Set New Password';
+        setupPasswordToggle('new-password', 'new-password-toggle');
+        setupPasswordToggle('confirm-password', 'confirm-password-toggle');
+        document.getElementById('new-password').focus();
+
+        // Event listener for password strength on new password field for Step 3
+        const newPassField = document.getElementById('new-password');
+        // Remove previous listener to prevent duplicates
+        newPassField.removeEventListener('input', passwordInputHandler);
+        newPassField.addEventListener('input', passwordInputHandler);
+        evaluatePasswordStrength(newPassField.value); // Set initial strength for cleared field
+      }
+
+      // Clear messages for any step
+      document.getElementById('forgot-message').textContent = '';
+      document.getElementById('reset-otp-message').textContent = '';
+      document.getElementById('set-password-message').textContent = '';
+    }
+
+    // --- Shared Password Input Handler (for strength bar) ---
+    function passwordInputHandler() {
+      evaluatePasswordStrength(this.value);
+    }
+
+    // --- Initial Config Load & Main Login Form ---
+    document.addEventListener('DOMContentLoaded', function() {
+      setupPasswordToggle('password', 'password-toggle'); // Setup for main login password field
+
+      google.script.run
+        .withSuccessHandler(function(config) {
+          const customBannerImg = document.getElementById('custom-banner-img');
+          if (config.bannerUrl && config.bannerUrl.trim() !== '') {
+            customBannerImg.src = config.bannerUrl;
+            customBannerImg.style.display = 'block';
+          } else {
+            customBannerImg.style.display = 'block';
+          }
+
+          // Apply dynamic accent color
+          if (config.accentColor && config.accentColor.trim() !== '') {
+            document.documentElement.style.setProperty('--primary-accent-color', config.accentColor);
+            const hoverColor = tinycolor(config.accentColor).darken(10).toString();
+            document.documentElement.style.setProperty('--primary-accent-color-hover', hoverColor);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error("Error loading app config:", error);
+          document.getElementById('login-message').textContent = 'Failed to load app configuration. Please contact admin.';
+          document.getElementById('login-message').classList.add('error');
+          document.getElementById('login-button').disabled = false;
+          document.getElementById('loading-spinner').style.display = 'none';
+        })
+        .getAppConfig();
+    });
+
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const loginMessage = document.getElementById('login-message');
+      const spinner = document.getElementById('loading-spinner');
+      const submitButton = document.getElementById('login-button');
+
+      loginMessage.textContent = '';
+      loginMessage.classList.remove('success', 'error');
+      spinner.style.display = 'block';
+      submitButton.disabled = true;
+
+      // Basic client-side validation
+      if (!username || !password) {
+        loginMessage.textContent = 'Username and password cannot be empty.';
+        loginMessage.classList.add('error');
+        spinner.style.display = 'none';
+        submitButton.disabled = false;
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          spinner.style.display = 'none';
+          submitButton.disabled = false;
+          loginMessage.textContent = response.message;
+          loginMessage.classList.add(response.success ? 'success' : 'error');
+
+          if (response.success) {
+            console.log("Login successful! sessionId from server:", response.sessionId); // ADDED console.log
+            setCookie('nepHR_session', response.sessionId, 7);
+            // ADDED DELAY HERE: Give browser time to set cookie before redirecting
+            setTimeout(function() {
+              console.log("Redirecting to:", response.redirectUrl); // ADDED console.log
+              window.top.location.href = response.redirectUrl; // Redirect to a protected page
+            }, 50); // 50 milliseconds delay
+          }
+        })
+        .withFailureHandler(function(error) {
+          spinner.style.display = 'none';
+          submitButton.disabled = false;
+          loginMessage.textContent = 'An unexpected error occurred: ' + error.message;
+          loginMessage.classList.add('error');
+          console.error(error);
+        })
+        .handleLogin(username, password);
+    });
+
+
+    // --- Forgot Password Modal Logic (Multi-step) ---
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    const forgotPasswordModal = document.getElementById('forgot-password-modal');
+    const closeForgotModalButton = document.getElementById('close-forgot-modal');
+
+    const forgotUsernameForm = document.getElementById('forgot-username-form');
+    const forgotUsernameInput = document.getElementById('forgot-username');
+    const forgotSendOtpButton = document.getElementById('forgot-send-otp-button');
+    const forgotLoadingSpinner = document.getElementById('forgot-loading-spinner');
+    const forgotMessage = document.getElementById('forgot-message');
+
+    const forgotVerifyOtpForm = document.getElementById('forgot-verify-otp-form');
+    const resetOtpInput = document.getElementById('reset-otp');
+    const forgotVerifyButton = document.getElementById('forgot-verify-button');
+    const resetVerifySpinner = document.getElementById('reset-verify-spinner');
+    const resetOtpMessage = document.getElementById('reset-otp-message');
+    const resendResetOtpLink = document.getElementById('resend-reset-otp-link');
+    const forgotGoBackLink = document.getElementById('forgot-go-back-link');
+
+    const setNewPasswordForm = document.getElementById('set-new-password-form');
+    const newPasswordFieldModal = document.getElementById('new-password');
+    const confirmPasswordFieldModal = document.getElementById('confirm-password');
+    const setPasswordButton = document.getElementById('set-password-button');
+    const setPasswordSpinner = document.getElementById('set-password-spinner');
+    const setPasswordMessage = document.getElementById('set-password-message');
+
+
+    // Open Forgot Password Modal
+    forgotPasswordLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      forgotPasswordModal.style.display = 'flex';
+      showForgotStep(1); // Start at Step 1 (Enter Username)
+      forgotUsernameInput.value = ''; // Clear input on open
+      resetAllOtpTimers(); // Ensure no timer is running, and clears otp input
+      forgotUsernameInput.focus();
+
+      // Re-attach resend OTP link listener - important to remove previous listeners to avoid duplicates
+      resendResetOtpLink.removeEventListener('click', handleResendOtp);
+      resendResetOtpLink.addEventListener('click', handleResendOtp);
+    });
+
+    // Close Forgot Password Modal
+    closeForgotModalButton.addEventListener('click', function() {
+      forgotPasswordModal.style.display = 'none';
+      resetAllOtpTimers(); // Clear timers on close, and clears otp input
+    });
+    forgotPasswordModal.addEventListener('click', function(e) {
+      if (e.target === forgotPasswordModal) {
+        forgotPasswordModal.style.display = 'none';
+        resetAllOtpTimers(); // Clear timers on close, and clears otp input
+      }
+    });
+
+    // --- Forgot Password Step 1: Send OTP for Reset ---
+    forgotUsernameForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      currentUsernameForReset = forgotUsernameInput.value.trim(); // Store for later steps
+
+      forgotMessage.textContent = '';
+      forgotMessage.classList.remove('success', 'error');
+      forgotLoadingSpinner.style.display = 'block';
+      forgotSendOtpButton.disabled = true;
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          spinner.style.display = 'none';
+          forgotSendOtpButton.disabled = false;
+          forgotMessage.textContent = response.message;
+          forgotMessage.classList.add(response.success ? 'success' : 'error');
+
+          if (response.success) {
+            showForgotStep(2); // Move to Step 2 (Verify OTP)
+            document.getElementById('reset-otp-sent-info').textContent = `An OTP has been sent to the email registered for ${currentUsernameForReset}. It is valid for ${response.otpExpiryMinutes} minutes.`;
+            startOtpValidityTimer(response.serverExpiryTimestamp); // Start the detailed timer
+            resetOtpInput.focus();
+          }
+        })
+        .withFailureHandler(function(error) {
+          forgotLoadingSpinner.style.display = 'none';
+          forgotSendOtpButton.disabled = false;
+          forgotMessage.textContent = 'An unexpected error occurred: ' + error.message;
+          forgotMessage.classList.add('error');
+          console.error(error);
+        })
+        .sendPasswordResetEmail(currentUsernameForReset); // Call the backend to send OTP
+    });
+
+    // --- Forgot Password Step 2: Verify OTP ---
+    forgotVerifyOtpForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const otp = resetOtpInput.value.trim();
+
+      resetOtpMessage.textContent = '';
+      resetOtpMessage.classList.remove('success', 'error');
+      resetVerifySpinner.style.display = 'block';
+      forgotVerifyButton.disabled = true;
+
+      if (new Date().getTime() > otpServerExpiryTimestamp) {
+        resetOtpMessage.textContent = 'OTP expired. Please request a new one.';
+        resetOtpMessage.classList.add('error');
+        resetVerifySpinner.style.display = 'none';
+        forgotVerifyButton.disabled = false;
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          resetVerifySpinner.style.display = 'none';
+          forgotVerifyButton.disabled = false;
+          resetOtpMessage.textContent = response.message;
+          resetOtpMessage.classList.add(response.success ? 'success' : 'error');
+
+          if (response.success) {
+            showForgotStep(3); // Move to Step 3 (Set New Password)
+            // IMPORTANT: Do NOT call resetAllOtpTimers() here.
+            // We need the OTP value from resetOtpInput for verifyOtpAndSetPassword in Step 3.
+            clearInterval(otpValidityInterval); // Stop timer on successful OTP verify
+            clearInterval(resendCooldownInterval); // Stop resend cooldown
+          }
+        })
+        .withFailureHandler(function(error) {
+          resetVerifySpinner.style.display = 'none';
+          forgotVerifyButton.disabled = false;
+          resetOtpMessage.textContent = 'An unexpected error occurred: ' + error.message;
+          resetOtpMessage.classList.add('error');
+          console.error(error);
+        })
+        .validateOtpOnly(currentUsernameForReset, otp);
+    });
+
+    // --- Forgot Password Step 2: Resend OTP Link Handler ---
+    function handleResendOtp(e) {
+      e.preventDefault();
+      if (this.classList.contains('disabled')) return; // Prevent resend if on cooldown
+
+      resetAllOtpTimers(); // Clear current OTP validity and resend timers for a fresh start + clears otp input
+      const otpMessage = document.getElementById('reset-otp-message');
+      const spinner = document.getElementById('reset-verify-spinner');
+
+      otpMessage.textContent = 'Requesting new OTP...';
+      otpMessage.classList.remove('success', 'error');
+      spinner.style.display = 'block';
+      resendResetOtpLink.classList.add('disabled');
+      resendResetOtpLink.style.cursor = 'not-allowed';
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          spinner.style.display = 'none';
+          otpMessage.textContent = response.message;
+          otpMessage.classList.add(response.success ? 'success' : 'error');
+          if (response.success) {
+            startOtpValidityTimer(response.serverExpiryTimestamp);
+          } else {
+            resendResetOtpLink.classList.remove('disabled');
+            resendResetOtpLink.style.removeProperty('cursor');
+            resendResetOtpLink.textContent = 'Resend OTP';
+          }
+        })
+        .withFailureHandler(function(error) {
+          spinner.style.display = 'none';
+          otpMessage.textContent = 'Failed to resend OTP: ' + error.message;
+          otpMessage.classList.add('error');
+          resendResetOtpLink.classList.remove('disabled');
+          resendResetOtpLink.style.removeProperty('cursor');
+          resendResetOtpLink.textContent = 'Resend OTP';
+          console.error(error);
+        })
+        .sendPasswordResetEmail(currentUsernameForReset);
+    }
+
+    resendResetOtpLink.addEventListener('click', handleResendOtp);
+
+
+    // --- Forgot Password Step 2: Go Back Link ---
+    forgotGoBackLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      resetAllOtpTimers(); // Clear timers and OTP input
+      showForgotStep(1);
+      forgotUsernameInput.value = currentUsernameForReset; // Keep username populated
+      forgotUsernameInput.focus();
+    });
+
+
+    // --- Forgot Password Step 3: Set New Password ---
+    setNewPasswordForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newPassword = newPasswordFieldModal.value;
+      const confirmPassword = confirmPasswordFieldModal.value;
+
+      setPasswordMessage.textContent = '';
+      setPasswordMessage.classList.remove('success', 'error');
+
+      if (newPassword !== confirmPassword) {
+        setPasswordMessage.textContent = 'Passwords do not match.';
+        setPasswordMessage.classList.add('error');
+        return;
+      }
+
+      const { score } = evaluatePasswordStrength(newPassword);
+      if (score < 3) { // Require at least "Medium" strength
+        setPasswordMessage.textContent = 'Password is too weak. Please include uppercase, lowercase, numbers, and symbols and be at least 8 characters long.';
+        setPasswordMessage.classList.add('error');
+        return;
+      }
+
+      setPasswordSpinner.style.display = 'block';
+      setPasswordButton.disabled = true;
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setPasswordSpinner.style.display = 'none';
+          setPasswordButton.disabled = false;
+          setPasswordMessage.textContent = response.message;
+          setPasswordMessage.classList.add(response.success ? 'success' : 'error');
+
+          if (response.success) {
+            setTimeout(() => {
+              forgotPasswordModal.style.display = 'none';
+              resetAllOtpTimers(); // Clear timers and OTP input after successful reset
+              document.getElementById('login-message').textContent = 'Password reset successfully! You can now log in.';
+              document.getElementById('login-message').classList.add('success');
+            }, 3000);
+          }
+        })
+        .withFailureHandler(function(error) {
+          setPasswordSpinner.style.display = 'none';
+          setPasswordButton.disabled = false;
+          setPasswordMessage.textContent = 'An unexpected error occurred: ' + error.message;
+          setPasswordMessage.classList.add('error');
+          console.error(error);
+        })
+        .verifyOtpAndSetPassword(currentUsernameForReset, resetOtpInput.value.trim(), newPassword);
+    });
+  </script>
+</body>
+</html>

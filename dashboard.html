@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* CSS Variables for Theming - ALL IN ONE PLACE */
+    :root {
+      /* Light Mode Variables */
+      --primary-accent-color: #4CAF50; /* Soft Green Accent */
+      --primary-accent-color-hover: #45a049; /* Slightly darker on hover */
+      --background-gradient-start: #e0e7ff; /* Lighter blue/violet */
+      --background-gradient-end: #c3d9ff; /* Deeper blue/violet */
+      --text-color-primary: #333;
+      --text-color-secondary: #666;
+      --card-bg-color: rgba(240, 240, 240, 0.8); /* Slightly transparent white for glass effect */
+      --input-bg-color: #e8e8e8;
+      --input-bg-focus-color: #f5f5f5;
+      --button-bg-color: #e0e0e0;
+      --error-color: #e74c3c; /* Red */
+      --success-color: #27ae60; /* Green */
+      --warning-color: #f39c12; /* Added for password strength bar */
+      --info-color: #3498db; /* Added for password strength bar ('Good' strength) */
+
+      /* Neumorphic Shadows (Light Mode) */
+      --neumorphic-shadow-light: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(255, 255, 255, 0.7);
+      --neumorphic-shadow-raised: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+      --neumorphic-shadow-hover: 8px 8px 15px rgba(0, 0, 0, 0.15), -8px -8px 15px rgba(255, 255, 255, 0.85);
+      --neumorphic-shadow-inset: inset 2px 2px 5px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(255,255,255,0.7);
+
+      /* Neumorphic Input Inset (Light Mode) */
+      --neumorphic-input-inset-shadow: inset 2px 2px 5px rgba(0,0,0,0.1), inset -2px -2px 5px rgba(255,255,255,0.7);
+      --neumorphic-input-focus-shadow: inset 3px 3px 7px rgba(0,0,0,0.15), inset -3px -3px 7px rgba(255,255,255,0.85);
+
+      /* Glassmorphism */
+      --glass-filter: blur(10px);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border for glass effect */
+
+      /* Border Radii */
+      --border-radius-sm: 4px;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+      --border-radius-xl: 16px;
+      --border-radius-2xl: 24px;
+
+      /* Sidebar & Layout */
+      --sidebar-width: 250px;
+      --sidebar-width-collapsed: 80px;
+
+      /* Scrollbar */
+      --scrollbar-thumb: var(--primary-accent-color);
+      --scrollbar-track: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dark Mode Variables - applies when body has 'dark-mode' class */
+    body.dark-mode {
+      --primary-accent-color: #6a0dad; /* Violet Accent */
+      --primary-accent-color-hover: #7b00ea; /* Lighter violet */
+      --background-gradient-start: #2a293a; /* Darker grey-violet */
+      --background-gradient-end: #3b3a4e; /* Lighter grey-violet */
+      --text-color-primary: #f0f0f0;
+      --text-color-secondary: #b0b0b0;
+      --card-bg-color: rgba(32, 33, 36, 0.8); /* Transparent dark grey */
+      --input-bg-color: #2c2d30;
+      --input-bg-focus-color: #38393c;
+      --button-bg-color: #383838;
+      --error-color: #ff6b6b; /* Red */
+      --success-color: #2ecc71; /* Green */
+      --warning-color: #f1c40f; /* For password strength bar */
+      --info-color: #9b59b6; /* For password strength bar ('Good' strength) */
+
+      /* Neumorphic Shadows (Dark Mode) */
+      --neumorphic-shadow-light: 10px 10px 20px rgba(0, 0, 0, 0.5), -10px -10px 20px rgba(60, 60, 60, 0.5);
+      --neumorphic-shadow-raised: 5px 5px 10px #222, -5px -5px 10px #444;
+      --neumorphic-shadow-hover: 8px 8px 15px rgba(0, 0, 0, 0.6), -8px -8px 15px rgba(70, 70, 70, 0.6);
+      --neumorphic-shadow-inset: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(60,60,60,0.5);
+
+      /* Neumorphic Input Inset (Dark Mode) */
+      --neumorphic-input-inset-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(60,60,60,0.5);
+      --neumorphic-input-focus-shadow: inset 3px 3px 7px rgba(0,0,0,0.6), inset -3px -3px 7px rgba(70,70,70,0.6);
+
+      /* Glassmorphism for Dark Mode */
+      --glass-border: 1px solid rgba(255, 255, 255, 0.05); /* Lighter border for contrast */
+
+      /* Scrollbar */
+      --scrollbar-thumb: var(--primary-accent-color);
+      --scrollbar-track: rgba(255, 255, 255, 0.05);
+    }
+    /* End of CSS Variables */
+
+    /* Global Base Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color-primary);
+      background: linear-gradient(to right bottom, var(--background-gradient-start), var(--background-gradient-end));
+      transition: background 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      display: flex; /* For basic layout */
+      flex-direction: column;
+      overflow-x: hidden; /* Prevent horizontal scroll due to sidebar transitions */
+    }
+
+    /* Scrollbar Styling */
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: var(--border-radius-md);
+      border: 2px solid var(--scrollbar-track);
+    }
+
+    /* Layout Container */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width); /* Prevent shrinking below this */
+      background: var(--card-bg-color);
+      box-shadow: var(--neumorphic-shadow-light);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      position: sticky;
+      top: 0;
+      height: 100vh; /* Make it stick for full height */
+      overflow-y: auto;
+      backdrop-filter: var(--glass-filter);
+      border-right: var(--glass-border);
+      
+    }
+    .sidebar.collapsed {
+      width: var(--sidebar-width-collapsed);
+      min-width: var(--sidebar-width-collapsed);
+      padding: 20px 0; /* Adjust padding for collapsed state */
+      align-items: center; /* Center items when collapsed */
+    }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .sidebar-header.collapsed {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar-header .logo-text {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--primary-accent-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-header.collapsed .logo-text {
+      display: none; /* Hide text when collapsed */
+    }
+    .sidebar-toggle {
+      background: var(--button-bg-color);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--neumorphic-shadow-raised);
+      color: var(--text-color-secondary);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sidebar-toggle:hover {
+      box-shadow: var(--neumorphic-shadow-hover);
+      transform: scale(1.05);
+    }
+    .sidebar-toggle:active {
+        box-shadow: var(--neumorphic-shadow-inset);
+        transform: scale(0.95);
+    }
+    .sidebar.collapsed .sidebar-toggle {
+        transform: rotate(180deg); /* Rotate arrow when collapsed */
+    }
+
+    .sidebar-menu {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-right: 10px; /* Space for scrollbar */
+    }
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-menu li {
+      margin-bottom: 10px;
+    }
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: var(--text-color-primary);
+      border-radius: var(--border-radius-md);
+      transition: all 0.2s ease;
+      font-weight: 500;
+      box-shadow: var(--neumorphic-shadow-raised); /* Default raised look */
+    }
+    .sidebar-menu a:hover {
+      box-shadow: var(--neumorphic-shadow-hover); /* Hover effect */
+      transform: translateY(-2px);
+      color: var(--primary-accent-color);
+    }
+    .sidebar-menu a.active {
+      background: var(--primary-accent-color);
+      color: white;
+      box-shadow: var(--neumorphic-shadow-inset); /* Inset for active */
+      transform: translateY(0);
+    }
+    .sidebar-menu a i {
+      margin-right: 15px;
+      font-size: 1.2em;
+      width: 25px; /* Fixed width for icons */
+      text-align: center;
+    }
+    .sidebar.collapsed .sidebar-menu a {
+      justify-content: center;
+      padding: 12px 0;
+      width: 50px; /* Fixed width for icon only */
+      margin: 0 auto; /* Center item */
+      box-shadow: none; /* No shadow when collapsed */
+    }
+    .sidebar.collapsed .sidebar-menu a .menu-text {
+      display: none; /* Hide text when collapsed */
+    }
+    .sidebar.collapsed .sidebar-menu a i {
+        margin-right: 0;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg-color);
+      border-radius: var(--border-radius-xl);
+      box-shadow: var(--neumorphic-shadow-light);
+      padding: 15px 30px;
+      backdrop-filter: var(--glass-filter);
+      border: var(--glass-border);
+      position: sticky;
+      top: 30px; /* Stay below the top padding */
+      z-index: 100;
+    }
+
+    .topbar .company-info {
+        display: flex;
+        align-items: center;
+    }
+    .topbar .company-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--border-radius-md);
+        margin-right: 15px;
+        box-shadow: var(--neumorphic-shadow-raised);
+    }
+    .topbar .company-name {
+        font-size: 1.4em;
+        font-weight: 600;
+        color: var(--text-color-primary);
+    }
+
+    .topbar .user-profile-widget {
+        display: flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        background: var(--button-bg-color);
+        padding: 8px 15px;
+        border-radius: var(--border-radius-xl);
+        box-shadow: var(--neumorphic-shadow-raised);
+        transition: all 0.2s ease;
+    }
+    .topbar .user-profile-widget:hover {
+        box-shadow: var(--neumorphic-shadow-hover);
+        transform: translateY(-1px);
+    }
+    .topbar .user-profile-widget .profile-pic {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+        box-shadow: var(--neumorphic-shadow-inset);
+    }
+    .topbar .user-profile-widget .username {
+        font-weight: 600;
+        margin-right: 10px;
+        white-space: nowrap;
+    }
+    .topbar .user-profile-widget .dropdown-arrow {
+        transition: transform 0.2s ease;
+    }
+    .topbar .user-profile-widget.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .profile-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background: var(--card-bg-color);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--neumorphic-shadow-light);
+        min-width: 200px;
+        z-index: 200;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+        padding: 5px 0;
+        backdrop-filter: var(--glass-filter);
+        border: var(--glass-border);
+    }
+    .profile-dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .profile-dropdown-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .profile-dropdown-menu li a,
+    .profile-dropdown-menu li button {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 10px 20px;
+        text-align: left;
+        color: var(--text-color-primary);
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.9em;
+        transition: background 0.1s ease, color 0.1s ease;
+    }
+    .profile-dropdown-menu li a:hover,
+    .profile-dropdown-menu li button:hover {
+        background: rgba(var(--primary-accent-color), 0.1);
+        color: var(--primary-accent-color);
+    }
+    .profile-dropdown-menu li a i,
+    .profile-dropdown-menu li button i {
+        margin-right: 10px;
+        width: 20px; /* Fixed width for icon alignment */
+        text-align: center;
+    }
+    .profile-dropdown-menu .divider {
+        height: 1px;
+        background: var(--text-color-secondary);
+        opacity: 0.2;
+        margin: 5px 0;
+    }
+
+    /* Notification and Dark Mode Toggle */
+    .topbar .utility-icons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .topbar .utility-icons button {
+        background: var(--button-bg-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--neumorphic-shadow-raised);
+        color: var(--text-color-secondary);
+        font-size: 1.1em;
+        transition: all 0.2s ease;
+        position: relative; /* For notification badge */
+    }
+    .topbar .utility-icons button:hover {
+      box-shadow: var(--neumorphic-shadow-hover);
+      transform: translateY(-1px);
+      color: var(--primary-accent-color);
+    }
+    .topbar .utility-icons button:active {
+        box-shadow: var(--neumorphic-shadow-inset);
+        transform: translateY(0);
+    }
+
+    /* Notification Badge */
+    .notification-badge {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: var(--error-color);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 0.7em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+        from { transform: scale(0.8); opacity: 0.7; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Content Layout */
+    .content-area-main {
+      padding: 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      opacity: 0; /* Hidden initially, JS controls visibility */
+      transition: opacity 0.5s ease;
+      margin-top: 20px; /* Space below top bar */
+    }
+    .content-area-main.visible {
+        opacity: 1;
+    }
+
+    /* Common Card Styles */
+    .card {
+      background: var(--card-bg-color);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--neumorphic-shadow-raised); /* Use raised for regular cards */
+      padding: 25px;
+      backdrop-filter: var(--glass-filter);
+      border: var(--glass-border);
+      transition: all 0.3s ease;
+    }
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: var(--text-color-primary);
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+
+    /* Input Group Styles (reused from login) */
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+      color: var(--text-color-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .input-group input, .input-group textarea, .input-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-size: 1.1em;
+      background: var(--input-bg-color);
+      color: var(--text-color-primary);
+      box-shadow: var(--neumorphic-input-inset-shadow);
+      outline: none;
+      transition: box-shadow 0.2s ease, background 0.2s ease;
+      box-sizing: border-box; /* Include padding in width */
+    }
+    .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+      box-shadow: var(--neumorphic-input-focus-shadow);
+      background: var(--input-bg-focus-color);
+    }
+    .input-group textarea {
+        min-height: 80px;
+        resize: vertical;
+        padding-top: 15px;
+    }
+
+    /* Button Styles (reused from login) */
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: var(--border-radius-lg);
+      font-size: 1.1em;
+      font-weight: 700;
+      color: white; /* Default to white text on primary button */
+      background: var(--primary-accent-color);
+      box-shadow: var(--neumorphic-shadow-raised);
+      cursor: pointer;
+      min-width: 150px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none; /* For link-like buttons */
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--neumorphic-shadow-hover);
+      background: var(--primary-accent-color-hover);
+    }
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: var(--neumorphic-shadow-inset);
+    }
+    .btn:disabled, .btn.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: var(--neumorphic-shadow-inner);
+    }
+
+    .btn-secondary {
+        background: var(--button-bg-color);
+        color: var(--text-color-primary); /* Dark text for secondary buttons */
+    }
+    .btn-secondary:hover {
+       background: var(--input-bg-focus-color);
+       color: var(--primary-accent-color);
+    }
+    .btn-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+    }
+
+    /* Messages & Spinners */
+    .message {
+      margin-top: 15px;
+      font-size: 0.95em;
+      font-weight: 500;
+      text-align: center;
+    }
+    .message.error { color: var(--error-color); }
+    .message.success { color: var(--success-color); }
+    .message.info { color: var(--info-color); }
+    .spinner {
+      margin-top: 20px;
+      border: 4px solid var(--text-color-secondary);
+      border-left-color: var(--primary-accent-color);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Dashboard Specific Layouts */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .dashboard-grid .card {
+        padding: 20px;
+    }
+    #welcome-section {
+        background: url('https://via.placeholder.com/900x150/EEEEFF/333333?text=Welcome+Banner') center/cover no-repeat; /* Placeholder welcome banner */
+        color: var(--text-color-primary);
+        text-align: left;
+        padding: 30px;
+        border-radius: var(--border-radius-xl);
+        box-shadow: var(--neumorphic-shadow-light);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    #welcome-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.6); /* Semi-transparent overlay to make text readable */
+        backdrop-filter: blur(5px);
+        z-index: 0;
+    }
+    body.dark-mode #welcome-section::before {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    #welcome-section > * {
+        position: relative;
+        z-index: 1;
+    }
+    #welcome-message {
+        font-size: 2.2em;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--text-color-primary);
+    }
+    #current-date-time {
+        font-size: 1.1em;
+        font-weight: 500;
+        color: var(--text-color-secondary);
+        margin-bottom: 15px;
+    }
+    #company-news-ticker {
+        background: rgba(255,255,255,0.7);
+        padding: 10px 15px;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--neumorphic-shadow-inset);
+        font-size: 0.9em;
+        color: var(--text-color-primary);
+        z-index: 1;
+    }
+
+    /* Attendance QR Card */
+    #qr-section .card {
+        text-align: center;
+    }
+    #qr-code-display {
+        width: 150px;
+        height: 150px;
+        background: var(--input-bg-color);
+        box-shadow: var(--neumorphic-shadow-inset);
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-md);
+        font-size: 0.8em;
+        color: var(--text-color-secondary);
+    }
+    #attendance-status-display {
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-top: 15px;
+        color: var(--primary-accent-color);
+    }
+    .check-btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    /* Leave Balance Card */
+    .leave-type-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05); /* Subtle separator */
+      color: var(--text-color-primary);
+    }
+    .leave-type-item:last-child {
+        border-bottom: none;
+    }
+    .leave-type-item span {
+        font-weight: 500;
+    }
+    .leave-type-item .remaining {
+        color: var(--success-color);
+        font-weight: 600;
+    }
+    .leave-type-item .used {
+        color: var(--error-color);
+    }
+
+    /* Task Overview Card */
+    .task-summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        color: var(--text-color-primary);
+    }
+    .task-summary-item:last-child { border-bottom: none; }
+    .task-summary-item .count {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: var(--primary-accent-color);
+    }
+    .task-summary-item .label {
+        font-weight: 500;
+    }
+
+    /* Horizontal Calendar */
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .calendar-days {
+      display: flex;
+      overflow-x: auto; /* Allow scrolling for days */
+      padding-bottom: 10px; /* Space for scrollbar */
+      gap: 10px;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* Firefox */
+    }
+    .calendar-days::-webkit-scrollbar {
+        height: 6px;
+    }
+    .calendar-days::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb);
+    }
+    .calendar-days::-webkit-scrollbar-track {
+        background: var(--scrollbar-track);
+    }
+
+    .day-card {
+      min-width: 60px; /* Fixed width for each day */
+      flex-shrink: 0;
+      background: var(--button-bg-color);
+      padding: 10px 5px;
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--neumorphic-shadow-raised);
+      text-align: center;
+      font-size: 0.9em;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      color: var(--text-color-primary);
+    }
+    .day-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--neumorphic-shadow-hover);
+        color: var(--primary-accent-color);
+    }
+    .day-card.active {
+        background: var(--primary-accent-color);
+        color: white;
+        box-shadow: var(--neumorphic-shadow-inset);
+    }
+    .day-card .day-abbr {
+        font-weight: 600;
+        font-size: 0.8em;
+        opacity: 0.7;
+    }
+    .day-card .day-num {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-top: 3px;
+    }
+    .day-card .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin: 5px auto 0;
+    }
+    .status-dot.present { background-color: var(--success-color); }
+    .status-dot.absent { background-color: var(--error-color); }
+    .status-dot.late { background-color: var(--warning-color); }
+    .status-dot.leave { background-color: var(--info-color); }
+
+    /* Task List Styles */
+    .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .task-item {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        background: var(--button-bg-color); /* Light background for items */
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--neumorphic-shadow-raised);
+        transition: all 0.2s ease;
+        position: relative;
+    }
+    .task-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--neumorphic-shadow-hover);
+    }
+    .task-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .task-item-header .title {
+        font-weight: 600;
+        font-size: 1.1em;
+        color: var(--text-color-primary);
+    }
+    .task-item-header .priority-tag {
+        font-size: 0.8em;
+        padding: 3px 8px;
+        border-radius: var(--border-radius-sm);
+        font-weight: 600;
+        color: white;
+    }
+    .priority-tag.low { background-color: var(--success-color); }
+    .priority-tag.medium { background-color: var(--info-color); }
+    .priority-tag.high { background-color: var(--warning-color); }
+    .priority-tag.critical { background-color: var(--error-color); }
+
+    .task-meta {
+        font-size: 0.85em;
+        color: var(--text-color-secondary);
+        margin-bottom: 10px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .task-meta span i {
+        margin-right: 5px;
+    }
+    .task-description {
+        font-size: 0.9em;
+        color: var(--text-color-primary);
+        line-height: 1.5;
+        margin-bottom: 15px;
+        white-space: pre-wrap; /* Preserve formatting */
+    }
+    .task-progress-bar-container {
+        width: 100%;
+        background-color: var(--input-bg-color);
+        border-radius: var(--border-radius-md);
+        height: 8px;
+        margin-bottom: 15px;
+        box-shadow: var(--neumorphic-shadow-inset);
+    }
+    .task-progress-bar {
+        height: 100%;
+        background-color: var(--primary-accent-color);
+        border-radius: var(--border-radius-md);
+        width: 0%;
+        transition: width 0.3s ease-in-out;
+    }
+    .task-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px; /* Separate from description/progress */
+    }
+    .task-actions .btn {
+        font-size: 0.9em;
+        padding: 8px 15px;
+        min-width: unset;
+        flex-grow: 1; /* Allow buttons to grow */
+    }
+    .task-item.completed .task-actions,
+    .task-item.approved .task-actions {
+        display: none; /* Hide actions for completed tasks */
+    }
+
+    /* Profile Edit Form */
+    .profile-form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    @media (min-width: 768px) {
+        .profile-form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        .profile-form-grid .full-width {
+            grid-column: span 2;
+        }
+    }
+    #profile-pic-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: var(--neumorphic-shadow-raised);
+        margin-bottom: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #profile-pic-upload-section {
+        grid-column: span 1; /* Occupy only one column */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: var(--input-bg-color);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--neumorphic-shadow-inset);
+    }
+    #change-password-section {
+        grid-column: span 1; /* Occupy only one column */
+        background: var(--input-bg-color);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--neumorphic-shadow-inset);
+        padding: 20px;
+    }
+    #password-strength-bar { /* From Login.html */
+      height: 5px;
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      width: 0%;
+      transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      background-color: transparent;
+    }
+    #password-strength-bar.progress-very-weak { width: 25%; background-color: var(--error-color); }
+    #password-strength-bar.progress-weak { width: 50%; background-color: var(--error-color); }
+    #password-strength-bar.progress-medium { width: 75%; background-color: var(--warning-color); }
+    #password-strength-bar.progress-good { width: 100%; background-color: var(--info-color); }
+    #password-strength-bar.progress-strong { width: 100%; background-color: var(--success-color); }
+
+    /* Password Toggle Specific Styles */
+    .input-field-wrapper {
+        position: relative;
+        width: 100%;
+        display: block;
+    }
+    .input-field-wrapper input {
+        padding-right: 45px;
+        box-sizing: border-box;
+    }
+    .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--text-color-secondary);
+        font-size: 0.9em;
+        transition: color 0.2s ease;
+        display: none;
+        z-index: 2;
+    }
+
+    /* Tables */
+    .data-table-container {
+        overflow-x: auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--neumorphic-shadow-inset);
+        background: var(--input-bg-color);
+        padding: 15px;
+    }
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 0.9em;
+    }
+    .data-table th, .data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        color: var(--text-color-primary);
+        white-space: nowrap; /* Prevent wrapping in table cells */
+    }
+    .data-table th {
+        background: var(--primary-accent-color);
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        position: sticky;
+        top: 0;
+        z-index: 50; /* Keep header visible on scroll */
+    }
+    .data-table tr:nth-child(even) {
+        background: rgba(0,0,0,0.02);
+    }
+    .data-table tbody tr:hover {
+        background: rgba(var(--primary-accent-color), 0.1);
+    }
+    .data-table .status-cell {
+        font-weight: 600;
+        padding: 5px 10px;
+        border-radius: var(--border-radius-sm);
+    }
+    .status-cell.Pending { background-color: var(--warning-color); color: white; }
+    .status-cell.Approved { background-color: var(--success-color); color: white; }
+    .status-cell.Rejected { background-color: var(--error-color); color: white; }
+    .status-cell.Submitted { background-color: var(--info-color); color: white; }
+    .status-cell.InProgress { background-color: var(--info-color); color: white; }
+    .status-cell.Active { background-color: var(--success-color); color: white; }
+    .status-cell.Inactive { background-color: var(--error-color); color: white; }
+
+    /* Announcements */
+    .announcement-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .announcement-item {
+        padding: 15px;
+        background: var(--button-bg-color);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--neumorphic-shadow-raised);
+    }
+    .announcement-item h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 1.1em;
+        font-weight: 600;
+        color: var(--primary-accent-color);
+    }
+    .announcement-item p {
+        font-size: 0.9em;
+        color: var(--text-color-primary);
+        margin-bottom: 10px;
+    }
+    .announcement-item .meta {
+        font-size: 0.8em;
+        color: var(--text-color-secondary);
+        text-align: right;
+    }
+
+    /* Policy List */
+    .policy-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .policy-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--button-bg-color);
+        padding: 12px 15px;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--neumorphic-shadow-raised);
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: var(--text-color-primary);
+    }
+    .policy-list-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--neumorphic-shadow-hover);
+        color: var(--primary-accent-color);
+    }
+    .policy-list-item h4 {
+        margin: 0;
+        font-size: 1em;
+        font-weight: 600;
+    }
+    .policy-list-item i {
+        font-size: 1.1em;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .sidebar {
+            width: var(--sidebar-width-collapsed);
+            min-width: var(--sidebar-width-collapsed);
+            padding: 20px 0;
+            position: fixed; /* Fixed position for mobile sidebar */
+            height: 100%;
+            z-index: 1000;
+            left: 0;
+            transform: translateX(-100%); /* Initially hide on small screens */
+        }
+        .sidebar.collapsed { /* This would be the 'open' state on mobile */
+            transform: translateX(0);
+        }
+        .main-content {
+            margin-left: var(--sidebar-width-collapsed); /* Provide space for the static sidebar */
+            width: calc(100% - var(--sidebar-width-collapsed));
+        }
+        .sidebar-toggle {
+            box-shadow: none; /* No shadow on fixed toggle */
+            background: none;
+            color: var(--primary-accent-color);
+        }
+        .sidebar.collapsed .sidebar-toggle {
+            position: absolute;
+            right: -40px; /* Position toggle button outside sidebar */
+            top: 20px;
+            transform: rotate(0deg); /* Reset rotation */
+            background: var(--card-bg-color);
+            border-radius: 50%;
+            box-shadow: var(--neumorphic-shadow-raised);
+        }
+        .topbar {
+            border-radius: var(--border-radius-lg);
+            padding: 10px 20px;
+        }
+        .topbar .company-name {
+            font-size: 1.2em;
+        }
+        .topbar .user-profile-widget .username {
+            display: none; /* Hide username on small screens */
+        }
+    }
+    @media (max-width: 767px) {
+       .dashboard-container {
+           flex-direction: column;
+       }
+       .sidebar {
+           height: auto; /* Allow height to adapt */
+           position: relative;
+           width: 100%;
+           transform: translateX(0) !important; /* Always visible to start */
+           padding: 20px;
+           min-width: unset;
+       }
+       .sidebar.collapsed { /* This collapsed state makes sense on desktop only */
+            width: 100%; /* Make full width on collapse */
+            justify-content: flex-start;
+            align-items: flex-start;
+       }
+       .sidebar-header {
+           justify-content: flex-start;
+           padding-left: 0;
+       }
+       .sidebar-toggle {
+           display: none; /* Hide toggle button on very small screens */
+       }
+       .sidebar-menu a .menu-text {
+           display: inline !important; /* Always show text on small screens */
+       }
+       .sidebar-menu a i {
+           margin-right: 15px;
+       }
+       .main-content {
+           margin-left: 0;
+           padding: 20px;
+       }
+       .topbar {
+           width: auto;
+           top: 0; /* No sticky on small screen */
+           border-radius: 0;
+       }
+       .content-area-main {
+           padding: 20px;
+           margin-top: 0;
+       }
+       .dashboard-grid {
+           grid-template-columns: 1fr;
+       }
+
+       /* Profile management specific on mobile */
+       #profile-pic-upload-section, #change-password-section {
+            grid-column: span 1;
+       }
+    }
+
+
+  </style>
+</head>
+<body class="light-mode">
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="sidebar-header">
+        <span class="logo-text">NepHR</span>
+        <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-chevron-left"></i></button>
+      </div>
+      <nav class="sidebar-menu">
+        <ul>
+          <li><a href="#" class="nav-link active" data-target="home"><i class="fas fa-home"></i><span class="menu-text">Dashboard</span></a></li>
+          <li><a href="#" class="nav-link" data-target="attendance"><i class="fas fa-calendar-check"></i><span class="menu-text">Attendance</span></a></li>
+          <li><a href="#" class="nav-link" data-target="tasks"><i class="fas fa-tasks"></i><span class="menu-text">Tasks</span></a></li>
+          <li><a href="#" class="nav-link" data-target="leaves"><i class="fas fa-calendar-alt"></i><span class="menu-text">Leaves</span></a></li>
+          <li><a href="#" class="nav-link" data-target="announcements"><i class="fas fa-bullhorn"></i><span class="menu-text">Announcements</span></a></li>
+          <li><a href="#" class="nav-link" data-target="payslips"><i class="fas fa-money-bill"></i><span class="menu-text">Payslips</span></a></li>
+          <li><a href="#" class="nav-link" data-target="company-policies"><i class="fas fa-handshake"></i><span class="menu-text">Policies</span></a></li>
+          <li><a href="#" class="nav-link" data-target="profile"><i class="fas fa-user-circle"></i><span class="menu-text">Profile</span></a></li>
+          <li><a href="#" class="nav-link" data-target="reports"><i class="fas fa-chart-line"></i><span class="menu-text">Reports</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+          <!-- Live date/time and day (For Nepali Date, would need specific JS library) -->
+          <p id="system-date-time" style="font-size: 0.8em; text-align: center; color: var(--text-color-secondary);"></p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="company-info">
+            <img id="topbar-company-logo" src="https://via.placeholder.com/40x40?text=Logo" alt="NepHR Logo" class="company-logo">
+            <span class="company-name">NepHR</span>
+        </div>
+        <div class="utility-icons">
+            <button id="notification-button" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span id="notification-badge" class="notification-badge" style="display:none;">0</span>
+            </button>
+            <button id="dark-mode-toggle" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="user-profile-widget" id="user-profile-widget">
+                <img id="topbar-profile-pic" src="https://via.placeholder.com/35x35?text=U" alt="Profile" class="profile-pic">
+                <span id="topbar-username" class="username"></span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                <div class="profile-dropdown-menu" id="profile-dropdown-menu">
+                    <ul>
+                        <li><a href="#" class="nav-link" data-target="profile"><i class="fas fa-user-circle"></i> View Profile</a></li>
+                        <li><button id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </header>
+
+      <section id="notification-panel" class="card" style="display: none;">
+        <h3>Notifications & Announcements</h3>
+        <div id="notification-list" class="announcement-list">
+          <p class="message info">No new notifications.</p>
+        </div>
+      </section>
+
+      <div class="content-area-main" id="content-area-main">
+        <!-- --- Dashboard Home Section --- -->
+        <section id="home-section" class="content-section card visible">
+          <div id="welcome-section">
+            <h2 id="welcome-message"></h2>
+            <p id="current-date-time-extended"></p>
+            <div id="company-news-ticker">
+                <p>Motivational quote or company news ticker goes here...</p>
+            </div>
+          </div>
+
+          <h3>Overview</h3>
+          <div class="dashboard-grid">
+            <div class="card" id="today-attendance-card">
+              <h3>Today's Attendance</h3>
+              <div id="attendance-qr">
+                  <div id="qr-code-display">QR Code Placeholder</div>
+                  <div class="check-btn-group">
+                      <button id="check-in-btn" class="btn"><i class="fas fa-arrow-right-to-bracket"></i> Check-in</button>
+                      <button id="check-out-btn" class="btn btn-secondary" style="display:none;"><i class="fas fa-arrow-right-from-bracket"></i> Check-out</button>
+                  </div>
+                  <p id="attendance-status-display">Loading Status...</p>
+                  <p id="attendance-time-display" style="font-size: 0.9em; color: var(--text-color-secondary);"></p>
+              </div>
+            </div>
+
+            <div class="card" id="leave-balance-card">
+              <h3>Leave Balance</h3>
+              <div id="leave-balance-list">
+                <p class="message info">Loading leave balances...</p>
+              </div>
+            </div>
+
+            <div class="card" id="task-overview-card">
+              <h3>Task Overview</h3>
+              <div class="task-summary-list">
+                <div class="task-summary-item">
+                    <span class="label">Pending Tasks:</span>
+                    <span id="pending-tasks-count" class="count">0</span>
+                </div>
+                <div class="task-summary-item">
+                    <span class="label">Completed Tasks (Today/This Week):</span>
+                    <span id="completed-tasks-count" class="count">0</span>
+                </div>
+              </div>
+            </div>
+            <!-- Self Performance and other cards can go here -->
+          </div>
+        </section>
+
+        <!-- --- Attendance Section --- -->
+        <section id="attendance-section" class="content-section card" style="display:none;">
+          <h3>Monthly Attendance Overview</h3>
+          <div class="calendar-nav">
+            <button id="prev-month-btn" class="btn btn-secondary"><i class="fas fa-chevron-left"></i></button>
+            <h4 id="current-month-year"></h4>
+            <button id="next-month-btn" class="btn btn-secondary"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div id="attendance-calendar-days" class="calendar-days card">
+            <p class="message info">Loading attendance calendar...</p>
+          </div>
+          <p id="attendance-message" class="message"></p>
+          <div class="spinner" id="attendance-spinner"></div>
+        </section>
+
+        <!-- --- Tasks Section --- -->
+        <section id="tasks-section" class="content-section card" style="display:none;">
+          <h3>My Tasks</h3>
+          <div class="input-group">
+              <label for="task-filter">Filter Tasks:</label>
+              <select id="task-filter">
+                  <option value="pending">Pending/In Progress</option>
+                  <option value="completed">Completed/Approved</option>
+                  <option value="all">All Tasks</option>
+              </select>
+          </div>
+          <div id="task-list" class="task-list">
+            <p class="message info">Loading tasks...</p>
+          </div>
+          <p id="tasks-message" class="message"></p>
+          <div class="spinner" id="tasks-spinner"></div>
+        </section>
+
+        <!-- --- Leaves Section --- -->
+        <section id="leaves-section" class="content-section card" style="display:none;">
+          <h3>Leave Application</h3>
+          <form id="leave-application-form">
+            <div class="input-group">
+              <label for="leave-type">Leave Type</label>
+              <select id="leave-type" required>
+                <option value="">Select Leave Type</option>
+                <option value="Casual Leave">Casual Leave</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Annual Leave">Annual Leave</option>
+                <!-- Add more as per company policy -->
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="leave-start-date">Start Date</label>
+              <input type="date" id="leave-start-date" required>
+            </div>
+            <div class="input-group">
+              <label for="leave-end-date">End Date</label>
+              <input type="date" id="leave-end-date" required>
+            </div>
+            <div class="input-group">
+              <label for="leave-reason">Reason</label>
+              <textarea id="leave-reason" rows="3" required></textarea>
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Apply Leave</button>
+            </div>
+          </form>
+          <p id="apply-leave-message" class="message"></p>
+          <div class="spinner" id="apply-leave-spinner"></div>
+
+          <h3 style="margin-top: 40px;">My Leave History</h3>
+          <div id="leave-history-table-container" class="data-table-container">
+            <p class="message info">Loading leave history...</p>
+          </div>
+          <p id="leave-history-message" class="message"></p>
+          <div class="spinner" id="leave-history-spinner"></div>
+        </section>
+
+        <!-- --- Announcements Section --- -->
+        <section id="announcements-section" class="content-section card" style="display:none;">
+          <h3>Company Announcements</h3>
+          <div id="announcements-list" class="announcement-list">
+            <p class="message info">No announcements at the moment.</p>
+          </div>
+          <p id="announcements-message" class="message"></p>
+          <div class="spinner" id="announcements-spinner"></div>
+        </section>
+
+        <!-- --- Payslips Section --- -->
+        <section id="payslips-section" class="content-section card" style="display:none;">
+          <h3>My Payslips</h3>
+          <div id="payslips-list" class="data-table-container">
+            <p class="message info">Loading payslips...</p>
+          </div>
+          <p id="payslips-message" class="message"></p>
+          <div class="spinner" id="payslips-spinner"></div>
+        </section>
+
+        <!-- --- Company Policies Section --- -->
+        <section id="company-policies-section" class="content-section card" style="display:none;">
+          <h3>Company Policies</h3>
+          <div id="policies-list" class="policy-list">
+            <p class="message info">No policies available.</p>
+          </div>
+          <p id="policies-message" class="message"></p>
+          <div class="spinner" id="policies-spinner"></div>
+        </section>
+
+        <!-- --- Profile Management Section --- -->
+        <section id="profile-section" class="content-section card" style="display:none;">
+          <h3>My Profile</h3>
+          <form id="profile-picture-form" style="margin-bottom: 30px;">
+            <div id="profile-pic-upload-section">
+                <img id="profile-pic-preview" src="https://via.placeholder.com/120x120?text=U" alt="Profile Picture">
+                <div class="input-group full-width">
+                    <label for="profile-pic-input">Change Profile Picture</label>
+                    <input type="file" id="profile-pic-input" accept="image/*">
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn"><i class="fas fa-upload"></i> Upload Photo</button>
+                    <div class="spinner" id="profile-pic-spinner" style="margin-left: 0;"></div>
+                </div>
+                <p id="profile-pic-message" class="message"></p>
+            </div>
+          </form>
+
+          <form id="profile-update-form" class="profile-form-grid" style="margin-top: 30px;">
+            <div class="input-group">
+              <label for="profile-username">Username</label>
+              <input type="text" id="profile-username" readonly disabled>
+            </div>
+            <div class="input-group">
+              <label for="profile-employeeid">Employee ID</label>
+              <input type="text" id="profile-employeeid" readonly disabled>
+            </div>
+            <div class="input-group full-width">
+              <label for="profile-fullname">Full Name</label>
+              <input type="text" id="profile-fullname" required>
+            </div>
+            <div class="input-group">
+              <label for="profile-email">Email</label>
+              <input type="email" id="profile-email" required>
+            </div>
+            <div class="input-group">
+              <label for="profile-phonenumber">Phone Number</label>
+              <input type="tel" id="profile-phonenumber">
+            </div>
+            <div class="input-group">
+              <label for="profile-department">Department</label>
+              <input type="text" id="profile-department" readonly disabled>
+            </div>
+            <div class="input-group">
+              <label for="profile-role">Role</label>
+              <input type="text" id="profile-role" readonly disabled>
+            </div>
+            <div class="btn-container full-width">
+                <button type="submit" class="btn"><i class="fas fa-save"></i> Update Profile</button>
+            </div>
+          </form>
+          <p id="profile-update-message" class="message"></p>
+          <div class="spinner" id="profile-spinner"></div>
+          
+          <h3 style="margin-top: 40px;">Change Password</h3>
+          <form id="change-password-form" class="profile-form-grid">
+            <div class="input-group full-width">
+              <label for="old-password">Old Password</label>
+              <div class="input-field-wrapper">
+                <input type="password" id="old-password" required autocomplete="current-password">
+                <span class="password-toggle" id="old-password-toggle"><i class="fa-solid fa-eye-slash"></i></span>
+              </div>
+            </div>
+            <div class="input-group full-width">
+              <label for="new-password">New Password</label>
+              <div class="input-field-wrapper">
+                <input type="password" id="new-password" required autocomplete="new-password">
+                <span class="password-toggle" id="new-password-toggle"><i class="fa-solid fa-eye-slash"></i></span>
+              </div>
+            </div>
+            <div id="password-strength-bar"></div>
+            <div class="input-group full-width">
+              <label for="confirm-new-password">Confirm New Password</label>
+              <div class="input-field-wrapper">
+                <input type="password" id="confirm-new-password" required autocomplete="new-password">
+                <span class="password-toggle" id="confirm-new-password-toggle"><i class="fa-solid fa-eye-slash"></i></span>
+              </div>
+            </div>
+             <div class="btn-container full-width">
+                <button type="submit" class="btn"><i class="fas fa-key"></i> Change Password</button>
+            </div>
+          </form>
+          <p id="change-password-message" class="message"></p>
+          <div class="spinner" id="change-password-spinner"></div>
+
+        </section>
+
+        <!-- --- Reports Section (Simplified) --- -->
+        <section id="reports-section" class="content-section card" style="display:none;">
+          <h3>My Reports</h3>
+          <p class="message info">This section provides downloadable reports. Please select a report type below.</p>
+          <div class="btn-container">
+              <button class="btn btn-secondary" onclick="alert('Download Attendance Report (Mock)')"><i class="fas fa-file-excel"></i> Attendance Report</button>
+              <button class="btn btn-secondary" onclick="alert('Download Task Report (Mock)')"><i class="fas fa-file-alt"></i> Task Submission Report</button>
+              <button class="btn btn-secondary" onclick="alert('Download Leave Report (Mock)')"><i class="fas fa-file-pdf"></i> Leave History Report</button>
+          </div>
+          <p id="reports-message" class="message"></p>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"></script>
+  <script>
+    // --- Global Variables & Constants (Client-side) ---
+    const SESSION_COOKIE_NAME = 'nepHR_session';
+    let currentSessionId = '';
+    let currentUserData = {};
+    let currentCalendarDate = new Date(); // For Attendance calendar
+
+    // --- Helper Functions ---
+
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i=0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0)===' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    }
+
+    function deleteCookie(name) {
+      document.cookie = name + '=; Max-Age=-99999999; Path=/;';
+    }
+
+    function showSpinner(spinnerId) { document.getElementById(spinnerId).style.display = 'block'; }
+    function hideSpinner(spinnerId) { document.getElementById(spinnerId).style.display = 'none'; }
+    function showMessage(msgId, type, message) {
+      const el = document.getElementById(msgId);
+      if (el) {
+        el.textContent = message;
+        el.className = `message ${type}`;
+      }
+    }
+    function clearMessage(msgId) {
+      const el = document.getElementById(msgId);
+      if (el) {
+        el.textContent = '';
+        el.className = 'message';
+      }
+    }
+
+    // --- Core UI & Navigation Logic ---
+
+    function setupPasswordToggle(passwordFieldId, toggleId) {
+        const passwordField = document.getElementById(passwordFieldId);
+        const passwordToggle = document.getElementById(toggleId);
+        const eyeIcon = passwordToggle ? passwordToggle.querySelector('i') : null;
+
+        function updateVisibility() {
+            if (!passwordField || !passwordToggle || !eyeIcon) return;
+            if (passwordField.value.length > 0) {
+                passwordToggle.style.display = 'inline-block';
+            } else {
+                passwordToggle.style.display = 'none';
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+        if (passwordField && passwordToggle) {
+            passwordField.addEventListener('input', updateVisibility);
+            // Initial check for autofill outside modal
+            // Use setTimeout to ensure autofilled values are present
+            setTimeout(updateVisibility, 100);
+
+            passwordToggle.addEventListener('click', function() {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+                passwordField.focus();
+            });
+        }
+    }
+
+    setupPasswordToggle('old-password', 'old-password-toggle');
+    setupPasswordToggle('new-password', 'new-password-toggle');
+    setupPasswordToggle('confirm-new-password', 'confirm-new-password-toggle');
+
+    function evaluatePasswordStrength(password) {
+        const passwordStrengthBar = document.getElementById('password-strength-bar');
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[\W_]/.test(password)) score++;
+
+        passwordStrengthBar.className = ""; // Reset classes
+        if (password.length === 0) {
+            passwordStrengthBar.style.width = '0%';
+            passwordStrengthBar.style.backgroundColor = 'transparent';
+            return { score: 0, text: "" };
+        }
+
+        let strengthText;
+        switch(score) {
+            case 5: passwordStrengthBar.classList.add("progress-strong"); strengthText = "Strong"; break;
+            case 4: passwordStrengthBar.classList.add("progress-good"); strengthText = "Good"; break;
+            case 3: passwordStrengthBar.classList.add("progress-medium"); strengthText = "Medium"; break;
+            case 2: passwordStrengthBar.classList.add("progress-weak"); strengthText = "Weak"; break;
+            default: passwordStrengthBar.classList.add("progress-very-weak"); strengthText = "Very Weak"; break;
+        }
+        return { score: score, text: strengthText };
+    }
+
+    const newPasswordField = document.getElementById('new-password');
+    if(newPasswordField) {
+      newPasswordField.addEventListener('input', function() {
+        evaluatePasswordStrength(this.value);
+      });
+    }
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.style.display = 'none';
+        section.classList.remove('visible');
+      });
+      const activeSection = document.getElementById(sectionId);
+      if (activeSection) {
+        activeSection.style.display = 'block';
+        setTimeout(() => activeSection.classList.add('visible'), 50); // Small delay for transition
+      }
+
+      // Hide notification panel when navigating to other sections
+      document.getElementById('notification-panel').style.display = 'none';
+
+      // Update active state in sidebar
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      const activeLink = document.querySelector(`.nav-link[data-target="${sectionId.replace('-section', '')}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+        // If sidebar is collapsed, expand it temporarily on item click
+        if (document.getElementById('sidebar').classList.contains('collapsed')) {
+             document.getElementById('sidebar').classList.remove('collapsed');
+        }
+      }
+    }
+
+    function initializeDashboard() {
+      currentSessionId = getCookie(SESSION_COOKIE_NAME);
+      if (!currentSessionId) {
+        window.top.location.href = '<?= ScriptApp.getService().getUrl(); ?>'; // Redirect to login
+        return;
+      }
+
+      // Add event listeners for navigation
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetSection = this.dataset.target + '-section';
+          showSection(targetSection);
+          loadSectionData(this.dataset.target); // Load data for the corresponding section
+        });
+      });
+
+      // Sidebar Toggle
+      document.getElementById('sidebar-toggle').addEventListener('click', function() {
+          const sidebar = document.getElementById('sidebar');
+          const sidebarHeader = document.getElementById('sidebar-header');
+          sidebar.classList.toggle('collapsed');
+          sidebarHeader.classList.toggle('collapsed');
+      });
+
+      // Profile Dropdown Toggle
+      document.getElementById('user-profile-widget').addEventListener('click', function() {
+          this.classList.toggle('active');
+          document.getElementById('profile-dropdown-menu').classList.toggle('active');
+      });
+
+      // Close dropdown if clicked outside
+      document.addEventListener('click', function(event) {
+          const profileWidget = document.getElementById('user-profile-widget');
+          const dropdownMenu = document.getElementById('profile-dropdown-menu');
+          if (!profileWidget.contains(event.target) && !dropdownMenu.contains(event.target)) {
+              profileWidget.classList.remove('active');
+              dropdownMenu.classList.remove('active');
+          }
+      });
+
+      // Dark Mode Toggle
+      document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+          this.querySelector('i').classList.toggle('fa-moon');
+          this.querySelector('i').classList.toggle('fa-sun');
+      });
+
+      // Apply saved theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+          document.body.classList.add('dark-mode');
+          document.getElementById('dark-mode-toggle').querySelector('i').classList.add('fa-sun');
+          document.getElementById('dark-mode-toggle').querySelector('i').classList.remove('fa-moon');
+      }
+
+      // Logout button
+      document.getElementById('logout-button').addEventListener('click', handleLogout);
+
+      // Notification button
+      document.getElementById('notification-button').addEventListener('click', function() {
+        const panel = document.getElementById('notification-panel');
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            loadSectionData('announcements'); // Use existing announcements loader
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active')); // Clear sidebar active state
+            document.getElementById('notification-badge').style.display = 'none'; // Hide badge on click
+            document.getElementById('notification-badge').textContent = '0';
+        } else {
+            panel.style.display = 'none';
+        }
+      });
+
+      // Initial data load for the home section
+      loadSectionData('home');
+      showSection('home-section');
+
+      // Setup Date/Time ticker
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+
+      // Load app config for banner and accent color
+      loadAppConfig();
+
+      // Start fetching notifications periodically
+      setInterval(fetchNotifications, 60000); // Check every minute
+      fetchNotifications(); // Initial fetch
+    }
+
+    function loadAppConfig() {
+      google.script.run
+        .withSuccessHandler(function(config) {
+          const topbarCompanyLogo = document.getElementById('topbar-company-logo');
+          if (config.bannerUrl && config.bannerUrl.trim() !== '') {
+            topbarCompanyLogo.src = config.bannerUrl;
+          } else {
+            topbarCompanyLogo.src = 'https://via.placeholder.com/40x40?text=Logo';
+          }
+          if (config.accentColor && config.accentColor.trim() !== '') {
+            document.documentElement.style.setProperty('--primary-accent-color', config.accentColor);
+            const hoverColor = tinycolor(config.accentColor).darken(10).toString();
+            document.documentElement.style.setProperty('--primary-accent-color-hover', hoverColor);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error("Error loading app config:", error);
+        })
+        .getAppConfig();
+    }
+
+
+    function handleLogout() {
+      // Clear client-side session cookie
+      deleteCookie(SESSION_COOKIE_NAME);
+
+      // Call backend to invalidate session on server
+      google.script.run
+        .withSuccessHandler(function(response) {
+          console.log(response.message);
+          window.top.location.href = '<?= ScriptApp.getService().getUrl(); ?>'; // Redirect to login
+        })
+        .withFailureHandler(function(error) {
+          console.error("Logout failed:", error);
+          // Even if backend fails, client-side session is cleared, so redirect anyway
+          window.top.location.href = '<?= ScriptApp.getService().getUrl(); ?>';
+        })
+        .logoutUser(currentSessionId);
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formattedDateTime = now.toLocaleDateString('en-US', options);
+      // For Nepali date/time, you'd need a specific library to convert date to Bikram Sambat.
+      // E.g., moment-jalaali or a custom conversion function.
+      document.getElementById('system-date-time').textContent = `Current: ${formattedDateTime}`;
+      document.getElementById('current-date-time-extended').textContent = `${formattedDateTime}`;
+    }
+
+    function loadSectionData(sectionName) {
+      clearMessage(`${sectionName}-message`); // Clear messages before loading
+      switch (sectionName) {
+        case 'home':
+          homePageModule.loadDashboardData();
+          break;
+        case 'attendance':
+          attendanceModule.loadAttendanceCalendar();
+          break;
+        case 'tasks':
+          taskModule.loadTasks();
+          break;
+        case 'leaves':
+          leaveModule.loadLeaveBalances();
+          leaveModule.loadLeaveHistory();
+          break;
+        case 'announcements':
+          announcementModule.loadAnnouncements();
+          break;
+        case 'profile':
+          profileModule.loadProfileData();
+          break;
+        case 'payslips':
+          payslipModule.loadPayslips(); // New call
+          break;
+        case 'company-policies':
+          policyModule.loadPolicies(); // New call
+          break;
+        case 'reports':
+            // Reports section is mostly static or has mock downloadable files for now
+            break;
+      }
+    }
+
+    // --- Modules ---
+
+    const homePageModule = (function() {
+      const usernameDisplay = document.getElementById('topbar-username');
+      const profilePicDisplay = document.getElementById('topbar-profile-pic');
+      const welcomeMessage = document.getElementById('welcome-message');
+      const attendanceStatusDisplay = document.getElementById('attendance-status-display');
+      const attendanceTimeDisplay = document.getElementById('attendance-time-display');
+      const checkInBtn = document.getElementById('check-in-btn');
+      const checkOutBtn = document.getElementById('check-out-btn');
+      const leaveBalanceList = document.getElementById('leave-balance-list');
+      const pendingTasksCount = document.getElementById('pending-tasks-count');
+      const completedTasksCount = document.getElementById('completed-tasks-count');
+
+      checkInBtn.addEventListener('click', () => recordAttendance('Check-in'));
+      checkOutBtn.addEventListener('click', () => recordAttendance('Check-out'));
+
+      function loadDashboardData() {
+        showSpinner('home-section .spinner'); // No dedicated spinner ID for this section
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('home-section .spinner');
+            if (response.success) {
+              currentUserData = response.data; // Store global user data
+              usernameDisplay.textContent = currentUserData.username;
+              profilePicDisplay.src = currentUserData.profilePicUrl;
+              profilePicDisplay.alt = currentUserData.username; // Set alt for accessibility
+              welcomeMessage.textContent = `Welcome Back, ${currentUserData.username}!`;
+
+              attendanceStatusDisplay.textContent = response.data.attendanceStatusToday;
+              if (response.data.checkInTimeToday) {
+                  attendanceTimeDisplay.textContent = `Check-in: ${response.data.checkInTimeToday}`;
+                  checkInBtn.style.display = 'none';
+                  checkOutBtn.style.display = 'inline-flex';
+              }
+              if (response.data.checkOutTimeToday) {
+                  attendanceTimeDisplay.textContent += ` | Check-out: ${response.data.checkOutTimeToday}`;
+                  checkInBtn.style.display = 'none';
+                  checkOutBtn.style.display = 'none'; // Both checked, hide both
+              } else if (!response.data.checkInTimeToday) {
+                  checkInBtn.style.display = 'inline-flex';
+                  checkOutBtn.style.display = 'none';
+              }
+
+
+              // Render Leave Balances
+              renderLeaveBalances(response.data.leaveBalances);
+
+              // Render Task Overview
+              pendingTasksCount.textContent = response.data.pendingTasks;
+              completedTasksCount.textContent = response.data.completedTasks;
+
+              // Mock GPS for QR Code (in a real app, integrate a browser Geolocation API)
+              document.getElementById('qr-code-display').textContent = 'QR Ready (Simulated)';
+
+            } else {
+              showMessage('home-section .message', 'error', response.message); // No dedicated message ID
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('home-section .spinner');
+            showMessage('home-section .message', 'error', `Error loading dashboard: ${error.message}`);
+            if (error.message.includes('Authentication required')) {
+                handleLogout(); // Redirect to login if session expires
+            }
+          })
+          .getUserDashboardData(currentSessionId);
+      }
+
+      function recordAttendance(type) {
+        showSpinner('home-section .spinner');
+        checkInBtn.disabled = true;
+        checkOutBtn.disabled = true;
+
+        // Mock GeoLocation (In a real app, use navigator.geolocation)
+        const mockGeoLocation = "34.0522,-118.2437"; // Example: Los Angeles coordinates
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('home-section .spinner');
+            checkInBtn.disabled = false;
+            checkOutBtn.disabled = false;
+            if (response.success) {
+              showMessage('home-section .message', 'success', response.message);
+              attendanceStatusDisplay.textContent = response.status;
+              attendanceTimeDisplay.textContent = `${type} Time: ${response.time}`;
+
+              if (type === 'Check-in') {
+                checkInBtn.style.display = 'none';
+                checkOutBtn.style.display = 'inline-flex';
+              } else if (type === 'Check-out') {
+                checkOutBtn.style.display = 'none';
+                checkInBtn.style.display = 'none'; // Hide both after check-out
+              }
+              // Refresh full dashboard data to ensure consistency
+              loadDashboardData();
+            } else {
+              showMessage('home-section .message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('home-section .spinner');
+            checkInBtn.disabled = false;
+            checkOutBtn.disabled = false;
+            showMessage('home-section .message', 'error', `Error recording attendance: ${error.message}`);
+          })
+          .recordAttendance(type, mockGeoLocation);
+      }
+
+      function renderLeaveBalances(balances) {
+        leaveBalanceList.innerHTML = ''; // Clear previous
+        if (Object.keys(balances).length === 0) {
+          leaveBalanceList.innerHTML = '<p class="message info">No leave balance data available.</p>';
+          return;
+        }
+        for (const type in balances) {
+          if (balances.hasOwnProperty(type)) {
+            const item = balances[type];
+            const div = document.createElement('div');
+            div.className = 'leave-type-item';
+            div.innerHTML = `
+              <span>${type}</span>
+              <span>Available: <strong class="remaining">${item.remaining}</strong> / Total: ${item.total}</span>
+            `;
+            leaveBalanceList.appendChild(div);
+          }
+        }
+      }
+
+      return {
+        loadDashboardData: loadDashboardData
+      };
+    })();
+
+    const attendanceModule = (function() {
+      const calendarContainer = document.getElementById('attendance-calendar-days');
+      const currentMonthYearDisplay = document.getElementById('current-month-year');
+      const prevMonthBtn = document.getElementById('prev-month-btn');
+      const nextMonthBtn = document.getElementById('next-month-btn');
+
+      prevMonthBtn.addEventListener('click', () => changeMonth(-1));
+      nextMonthBtn.addEventListener('click', () => changeMonth(1));
+
+      function loadAttendanceCalendar() {
+        showSpinner('attendance-spinner');
+        clearMessage('attendance-message');
+
+        const year = currentCalendarDate.getFullYear();
+        const month = currentCalendarDate.getMonth() + 1; // JS months are 0-indexed
+
+        currentMonthYearDisplay.textContent = currentCalendarDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('attendance-spinner');
+            if (response.success) {
+              renderCalendar(response.data);
+            } else {
+              showMessage('attendance-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('attendance-spinner');
+            showMessage('attendance-message', 'error', `Error loading attendance: ${error.message}`);
+          })
+          .getMonthlyAttendance(currentUserData.username, year, month);
+      }
+
+      function renderCalendar(attendanceData) {
+        calendarContainer.innerHTML = '';
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const year = currentCalendarDate.getFullYear();
+        const month = currentCalendarDate.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const attendanceMap = new Map();
+        attendanceData.forEach(entry => {
+          attendanceMap.set(entry.date, entry.status);
+        });
+
+        for (let i = 1; i <= daysInMonth; i++) {
+          const date = new Date(year, month, i);
+          const dateString = date.toISOString().split('T')[0];
+          const status = attendanceMap.get(dateString) || ''; // Default to empty if no record
+          let statusClass = '';
+
+          switch (status) {
+            case 'Present': statusClass = 'present'; break;
+            case 'Absent': statusClass = 'absent'; break;
+            case 'Late': statusClass = 'late'; break;
+            case 'Checked In (No Check-out)': statusClass = 'late'; break; // Treat as late/incomplete if no check-out
+            // Add 'leave' status if you integrate leave data here
+          }
+
+          const dayCard = document.createElement('div');
+          dayCard.className = 'day-card';
+          if (date.toDateString() === today.toDateString()) {
+            dayCard.classList.add('active'); // Highlight today
+          }
+          dayCard.innerHTML = `
+            <div class="day-abbr">${date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+            <div class="day-num">${i}</div>
+            ${statusClass ? `<div class="status-dot ${statusClass}"></div>` : ''}
+          `;
+          calendarContainer.appendChild(dayCard);
+        }
+      }
+
+      function changeMonth(delta) {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
+        loadAttendanceCalendar();
+      }
+
+      return {
+        loadAttendanceCalendar: loadAttendanceCalendar
+      };
+    })();
+
+    const taskModule = (function() {
+      const taskListContainer = document.getElementById('task-list');
+      const taskFilter = document.getElementById('task-filter');
+
+      taskFilter.addEventListener('change', loadTasks);
+
+      function loadTasks() {
+        showSpinner('tasks-spinner');
+        clearMessage('tasks-message');
+
+        const filter = taskFilter.value;
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('tasks-spinner');
+            if (response.success) {
+              renderTasks(response.data);
+            } else {
+              showMessage('tasks-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('tasks-spinner');
+            showMessage('tasks-message', 'error', `Error loading tasks: ${error.message}`);
+          })
+          .getUserTasks(currentUserData.username, filter);
+      }
+
+      function renderTasks(tasks) {
+        taskListContainer.innerHTML = '';
+        if (tasks.length === 0) {
+          taskListContainer.innerHTML = '<p class="message info">No tasks found for this filter.</p>';
+          return;
+        }
+
+        tasks.forEach(task => {
+          const taskItem = document.createElement('div');
+          let statusClass = task.status.toLowerCase().replace(/\s/g, ''); // pending, inprogress, submitted, approved, rejected
+          taskItem.className = `task-item ${statusClass}`;
+          taskItem.innerHTML = `
+            <div class="task-item-header">
+              <span class="title">${task.title}</span>
+              <span class="priority-tag ${task.priority.toLowerCase()}">${task.priority}</span>
+            </div>
+            <div class="task-meta">
+              <span><i class="fas fa-user"></i> Assigned By: ${task.assignedBy}</span>
+              <span><i class="fas fa-calendar-alt"></i> Due: ${new Date(task.dueDate).toLocaleDateString()}</span>
+              <span><i class="fas fa-tag"></i> Type: ${task.type}</span>
+            </div>
+            <div class="task-description">${task.description}</div>
+            <div class="task-progress-bar-container">
+              <div class="task-progress-bar" style="width: ${task.progress || 0}%;"></div>
+            </div>
+            <p style="font-size: 0.85em; color: var(--text-color-secondary); margin-bottom: 10px;">Status: <strong>${task.status}</strong>, Progress: <strong>${task.progress || 0}%</strong></p>
+            <div class="task-actions">
+              ${task.status !== 'Approved' && task.status !== 'Rejected' ? `
+                <button class="btn btn-secondary update-progress-btn" data-task-id="${task.taskId}" data-current-progress="${task.progress || 0}"><i class="fas fa-edit"></i> Update Progress</button>
+                <button class="btn submit-task-btn" data-task-id="${task.taskId}"><i class="fas fa-check-circle"></i> Mark as Submitted</button>
+              ` : ''}
+            </div>
+          `;
+          taskListContainer.appendChild(taskItem);
+        });
+
+        // Add event listeners for new buttons
+        taskListContainer.querySelectorAll('.update-progress-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const taskId = this.dataset.taskId;
+            const currentProgress = parseInt(this.dataset.currentProgress);
+            let newProgress = prompt(`Enter new progress (0-100) for task "${taskId}":`, currentProgress);
+            if (newProgress === null || isNaN(newProgress) || newProgress < 0 || newProgress > 100) {
+              showMessage('tasks-message', 'error', 'Invalid progress value. Please enter a number between 0 and 100.');
+              return;
+            }
+            newProgress = parseInt(newProgress);
+            const comments = prompt(`Add comments for task "${taskId}" (optional):`);
+            updateTask(taskId, newProgress, comments, 'In Progress');
+          });
+        });
+
+        taskListContainer.querySelectorAll('.submit-task-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to mark this task as submitted? Task will be set to 100% progress.')) {
+              const taskId = this.dataset.taskId;
+              const comments = prompt(`Add final comments for task "${taskId}" (optional):`);
+              updateTask(taskId, 100, comments, 'Submitted');
+            }
+          });
+        });
+      }
+
+      function updateTask(taskId, progress, comments, status) {
+        showSpinner('tasks-spinner');
+        clearMessage('tasks-message');
+
+         google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('tasks-spinner');
+            if (response.success) {
+              showMessage('tasks-message', 'success', response.message);
+              loadTasks(); // Reload tasks to see updated status
+            } else {
+              showMessage('tasks-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('tasks-spinner');
+            showMessage('tasks-message', 'error', `Error updating task: ${error.message}`);
+          })
+          .updateTaskProgress(currentUserData.username, taskId, progress, comments, status);
+      }
+
+      return {
+        loadTasks: loadTasks
+      };
+    })();
+
+    const leaveModule = (function() {
+      const applyLeaveForm = document.getElementById('leave-application-form');
+      const leaveTypeSelect = document.getElementById('leave-type');
+      const leaveStartDateInput = document.getElementById('leave-start-date');
+      const leaveEndDateInput = document.getElementById('leave-end-date');
+      const leaveReasonTextarea = document.getElementById('leave-reason');
+      const leaveHistoryTableContainer = document.getElementById('leave-history-table-container');
+
+      applyLeaveForm.addEventListener('submit', handleApplyLeave);
+
+      function handleApplyLeave(e) {
+        e.preventDefault();
+        showSpinner('apply-leave-spinner');
+        clearMessage('apply-leave-message');
+
+        const leaveData = {
+          leaveType: leaveTypeSelect.value,
+          startDate: leaveStartDateInput.value,
+          endDate: leaveEndDateInput.value,
+          reason: leaveReasonTextarea.value,
+          attachmentUrl: '' // No attachment upload for now
+        };
+
+        if (!leaveData.leaveType || !leaveData.startDate || !leaveData.endDate || !leaveData.reason) {
+          showMessage('apply-leave-message', 'error', 'All fields are required.');
+          hideSpinner('apply-leave-spinner');
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('apply-leave-spinner');
+            if (response.success) {
+              showMessage('apply-leave-message', 'success', response.message);
+              applyLeaveForm.reset();
+              loadLeaveHistory(); // Refresh history
+            } else {
+              showMessage('apply-leave-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('apply-leave-spinner');
+            showMessage('apply-leave-message', 'error', `Error applying for leave: ${error.message}`);
+          })
+          .applyLeave(currentUserData.username, leaveData);
+      }
+
+      function loadLeaveBalances() {
+          // This is loaded via homePageModule already, but could be called here if needed
+          // For now, no direct call here as Home handles it
+      }
+
+      function loadLeaveHistory() {
+        showSpinner('leave-history-spinner');
+        clearMessage('leave-history-message');
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('leave-history-spinner');
+            if (response.success) {
+              renderLeaveHistory(response.data);
+            } else {
+              showMessage('leave-history-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('leave-history-spinner');
+            showMessage('leave-history-message', 'error', `Error loading leave history: ${error.message}`);
+          })
+          .getUserLeaveHistory(currentUserData.username);
+      }
+
+      function renderLeaveHistory(history) {
+        if (history.length === 0) {
+          leaveHistoryTableContainer.innerHTML = '<p class="message info">No leave history found.</p>';
+          return;
+        }
+
+        let tableHtml = `
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Days</th>
+                <th>Reason</th>
+                <th>Applied On</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        history.forEach(leave => {
+          tableHtml += `
+            <tr>
+              <td>${leave.leaveType}</td>
+              <td>${new Date(leave.startDate).toLocaleDateString()}</td>
+              <td>${new Date(leave.endDate).toLocaleDateString()}</td>
+              <td>${leave.numDays}</td>
+              <td>${leave.reason}</td>
+              <td>${new Date(leave.appliedAt).toLocaleDateString()}</td>
+              <td><span class="status-cell ${leave.status}">${leave.status}</span></td>
+            </tr>
+          `;
+        });
+        tableHtml += `</tbody></table>`;
+        leaveHistoryTableContainer.innerHTML = tableHtml;
+      }
+
+      return {
+        loadLeaveBalances: loadLeaveBalances,
+        loadLeaveHistory: loadLeaveHistory
+      };
+    })();
+
+    const announcementModule = (function() {
+      const announcementsList = document.getElementById('announcements-list');
+      function loadAnnouncements() {
+        showSpinner('announcements-spinner');
+        clearMessage('announcements-message');
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('announcements-spinner');
+            if (response.success) {
+              renderAnnouncements(response.data);
+            } else {
+              showMessage('announcements-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('announcements-spinner');
+            showMessage('announcements-message', 'error', `Error loading announcements: ${error.message}`);
+          })
+          .getAnnouncements();
+      }
+
+      function renderAnnouncements(announcements) {
+        announcementsList.innerHTML = ''; // Clear previous
+        if (announcements.length === 0) {
+          announcementsList.innerHTML = '<p class="message info">No announcements at the moment.</p>';
+          return;
+        }
+
+        announcements.forEach(ann => {
+          const div = document.createElement('div');
+          div.className = 'announcement-item';
+          const validUntil = ann.validUntil ? `Valid until: ${new Date(ann.validUntil).toLocaleDateString()}` : 'No expiry';
+          div.innerHTML = `
+            <h4>${ann.title}</h4>
+            <p>${ann.content}</p>
+            <div class="meta">Posted by ${ann.createdBy} on ${new Date(ann.createdAt).toLocaleDateString()} | ${validUntil}</div>
+          `;
+          announcementsList.appendChild(div);
+        });
+      }
+      return {
+        loadAnnouncements: loadAnnouncements
+      };
+    })();
+
+    const payslipModule = (function() {
+        const payslipsListContainer = document.getElementById('payslips-list');
+
+        function loadPayslips() {
+            showSpinner('payslips-spinner');
+            clearMessage('payslips-message');
+
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    hideSpinner('payslips-spinner');
+                    if (response.success) {
+                        renderPayslips(response.data);
+                    } else {
+                        showMessage('payslips-message', 'error', response.message);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideSpinner('payslips-spinner');
+                    showMessage('payslips-message', 'error', `Error loading payslips: ${error.message}`);
+                })
+                .getPayslips(currentUserData.username);
+        }
+
+        function renderPayslips(payslips) {
+            if (payslips.length === 0) {
+                payslipsListContainer.innerHTML = '<p class="message info">No payslips available.</p>';
+                return;
+            }
+
+            let tableHtml = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Month/Year</th>
+                            <th>Comment</th>
+                            <th>Uploaded On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            payslips.forEach(ps => {
+                tableHtml += `
+                    <tr>
+                        <td>${ps.monthYear}</td>
+                        <td>${ps.comment || 'N/A'}</td>
+                        <td>${new Date(ps.uploadedAt).toLocaleDateString()}</td>
+                        <td><a href="${ps.documentUrl}" target="_blank" class="btn btn-secondary" style="font-size:0.8em; padding: 5px 10px; min-width:unset;"><i class="fas fa-download"></i> View</a></td>
+                    </tr>
+                `;
+            });
+            tableHtml += `</tbody></table>`;
+            payslipsListContainer.innerHTML = tableHtml;
+        }
+
+        return {
+            loadPayslips: loadPayslips
+        };
+    })();
+
+
+    const policyModule = (function() {
+        const policiesListContainer = document.getElementById('policies-list');
+
+        function loadPolicies() {
+            showSpinner('policies-spinner');
+            clearMessage('policies-message');
+
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    hideSpinner('policies-spinner');
+                    if (response.success) {
+                        renderPolicies(response.data);
+                    } else {
+                        showMessage('policies-message', 'error', response.message);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideSpinner('policies-spinner');
+                    showMessage('policies-message', 'error', `Error loading policies: ${error.message}`);
+                })
+                .getCompanyPolicies();
+        }
+
+        function renderPolicies(policies) {
+            policiesListContainer.innerHTML = '';
+            if (policies.length === 0) {
+                policiesListContainer.innerHTML = '<p class="message info">No company policies found.</p>';
+                return;
+            }
+
+            policies.forEach(policy => {
+                const item = document.createElement('a');
+                item.href = policy.documentUrl;
+                item.target = '_blank';
+                item.className = 'policy-list-item';
+                item.innerHTML = `
+                    <h4>${policy.title}</h4>
+                    <i class="fas fa-file-pdf"></i>
+                `;
+                policiesListContainer.appendChild(item);
+            });
+        }
+
+        return {
+            loadPolicies: loadPolicies
+        };
+    })();
+
+
+    const profileModule = (function() {
+      const profilePicPreview = document.getElementById('profile-pic-preview');
+      const profilePicInput = document.getElementById('profile-pic-input');
+      const profilePicForm = document.getElementById('profile-picture-form');
+
+      const profileUsernameInput = document.getElementById('profile-username');
+      const profileEmployeeIdInput = document.getElementById('profile-employeeid');
+      const profileFullnameInput = document.getElementById('profile-fullname');
+      const profileEmailInput = document.getElementById('profile-email');
+      const profilePhoneNumberInput = document.getElementById('profile-phonenumber');
+      const profileDepartmentInput = document.getElementById('profile-department');
+      const profileRoleInput = document.getElementById('profile-role');
+      const profileUpdateForm = document.getElementById('profile-update-form');
+      const changePasswordForm = document.getElementById('change-password-form');
+
+      profilePicForm.addEventListener('submit', handleProfilePicUpload);
+      profileUpdateForm.addEventListener('submit', handleProfileUpdate);
+      changePasswordForm.addEventListener('submit', handleChangePassword);
+
+
+      profilePicInput.addEventListener('change', function(e) {
+          if (e.target.files && e.target.files[0]) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                  profilePicPreview.src = event.target.result;
+              }
+              reader.readAsDataURL(e.target.files[0]);
+          }
+      });
+
+      function loadProfileData() {
+        showSpinner('profile-spinner');
+        clearMessage('profile-update-message');
+        clearMessage('change-password-message');
+        clearMessage('profile-pic-message');
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('profile-spinner');
+            if (response.success && response.data) {
+                const data = response.data;
+                profileUsernameInput.value = data.username || '';
+                profileEmployeeIdInput.value = data.employeeId || '';
+                profileFullnameInput.value = data.fullName || '';
+                profileEmailInput.value = data.email || '';
+                profilePhoneNumberInput.value = data.phoneNumber || '';
+                profileDepartmentInput.value = data.department || '';
+                profileRoleInput.value = data.role || '';
+                profilePicPreview.src = data.profilePicUrl || 'https://via.placeholder.com/120x120?text=U';
+                currentUserData = response.data; // Update global user data
+            } else {
+              showMessage('profile-update-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('profile-spinner');
+            showMessage('profile-update-message', 'error', `Error loading profile: ${error.message}`);
+          })
+          .getUserDashboardData(currentSessionId); // Reuse this function to get profile data
+
+          // Also get employee details from Employees sheet data for comprehensive profile
+          google.script.run
+          .withSuccessHandler(function(response) {
+              if(response.success && response.data && response.data.length > 0) {
+                  const empData = response.data.find(emp => emp.username === currentUserData.username);
+                  if (empData) {
+                      profileFullnameInput.value = empData.fullName || profileFullnameInput.value;
+                      profileEmailInput.value = empData.email || profileEmailInput.value;
+                      profilePhoneNumberInput.value = empData.phoneNumber || profilePhoneNumberInput.value;
+                      profileDepartmentInput.value = empData.department || profileDepartmentInput.value;
+                      profileRoleInput.value = empData.role || profileRoleInput.value;
+                      profileEmployeeIdInput.value = empData.employeeId || profileEmployeeIdInput.value;
+                  }
+              }
+          })
+          .withFailureHandler(function(error) {
+              console.warn("Failed to load employee details for profile:", error);
+          })
+          .getAllEmployeesData(); // Need to be careful here: this function is usually for Admin.
+                                  // For employee profile, create a dedicated getUserEmployeeDetails(username) in Code.gs
+                                  // For now, relying on Admin function with privilege check on backend.
+      }
+
+      function handleProfileUpdate(e) {
+        e.preventDefault();
+        showSpinner('profile-spinner');
+        clearMessage('profile-update-message');
+
+        const profileData = {
+          fullName: profileFullnameInput.value,
+          email: profileEmailInput.value,
+          phoneNumber: profilePhoneNumberInput.value
+        };
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('profile-spinner');
+            if (response.success) {
+              showMessage('profile-update-message', 'success', response.message);
+              // Refresh initial dashboard data as well
+              homePageModule.loadDashboardData();
+            } else {
+              showMessage('profile-update-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('profile-spinner');
+            showMessage('profile-update-message', 'error', `Error updating profile: ${error.message}`);
+          })
+          .updateProfile(currentUserData.username, profileData);
+      }
+
+      function handleChangePassword(e) {
+        e.preventDefault();
+        showSpinner('change-password-spinner');
+        clearMessage('change-password-message');
+
+        const oldPassword = document.getElementById('old-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+        if (newPassword !== confirmNewPassword) {
+          showMessage('change-password-message', 'error', 'New passwords do not match.');
+          hideSpinner('change-password-spinner');
+          return;
+        }
+
+        const { score } = evaluatePasswordStrength(newPassword);
+        if (score < 3) { // Require at least "Medium" strength
+          showMessage('change-password-message', 'error', 'Password is too weak. Please include uppercase, lowercase, numbers, and symbols and be at least 8 characters long.');
+          hideSpinner('change-password-spinner');
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            hideSpinner('change-password-spinner');
+            if (response.success) {
+              showMessage('change-password-message', 'success', response.message);
+              changePasswordForm.reset();
+              document.getElementById('password-strength-bar').style.width = '0%';
+            } else {
+              showMessage('change-password-message', 'error', response.message);
+            }
+          })
+          .withFailureHandler(function(error) {
+            hideSpinner('change-password-spinner');
+            showMessage('change-password-message', 'error', `Error changing password: ${error.message}`);
+          })
+          .changePassword(currentUserData.username, oldPassword, newPassword);
+      }
+
+      function handleProfilePicUpload(e) {
+        e.preventDefault();
+        showSpinner('profile-pic-spinner');
+        clearMessage('profile-pic-message');
+
+        const file = profilePicInput.files[0];
+        if (!file) {
+            showMessage('profile-pic-message', 'error', 'Please select a file to upload.');
+            hideSpinner('profile-pic-spinner');
+            return;
+        }
+
+        const fr = new FileReader();
+        fr.onload = function(f) {
+            const fileData = f.target.result; // base64 string
+            const fileName = file.name;
+            const fileType = file.type;
+
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    hideSpinner('profile-pic-spinner');
+                    if (response.success) {
+                        showMessage('profile-pic-message', 'success', response.message);
+                        profilePicPreview.src = response.fileUrl; // Update preview with actual URL
+                        currentUserData.profilePicUrl = response.fileUrl; // Update global
+                        profilePicInput.value = ''; // Clear file input
+                        homePageModule.loadDashboardData(); // Refresh top bar profile pic
+                    } else {
+                        showMessage('profile-pic-message', 'error', response.message);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideSpinner('profile-pic-spinner');
+                    showMessage('profile-pic-message', 'error', `Error uploading profile picture: ${error.message}`);
+                })
+                .withFileUpload(fileData) // Pass file data. Apps Script converts to blob.
+                .uploadProfilePicture(currentUserData.username);
+        };
+        fr.readAsDataURL(file);
+      }
+
+      return {
+        loadProfileData: loadProfileData
+      };
+    })();
+
+    // Initialize the dashboard when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeDashboard);
+
+    // Initial fetch for notifications - will also be called every minute by interval
+    function fetchNotifications() {
+        google.script.run
+            .withSuccessHandler(function(response) {
+                if (response.success && response.data) {
+                    const notificationBadge = document.getElementById('notification-badge');
+                    const newAnnouncements = response.data.filter(ann => {
+                        // Very basic "new" logic: if it was created in the last 24 hours
+                        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+                        return new Date(ann.createdAt) > oneDayAgo;
+                    });
+                    if (newAnnouncements.length > 0) {
+                        notificationBadge.textContent = newAnnouncements.length;
+                        notificationBadge.style.display = 'flex';
+                    } else {
+                        notificationBadge.style.display = 'none';
+                    }
+                }
+            })
+            .withFailureHandler(function(error) {
+                console.error("Failed to fetch notifications:", error);
+            })
+            .getAnnouncements();
+    }
+  </script>
+</body>
+</html>
